@@ -1,29 +1,13 @@
 const app = require('express')()
-const mapper = require('./watterman')
+const mapper = require('./mapper')
 const port = 3000
 
-console.log( mapper.map('1111','01110'))
+const setting = {
+	mismatchScore : -1
+}
 
-app.get('/', (req, res) => res.json(
-	[
-		{
-			id: 1,
-			name: 'sam'
-		},
-		{
-			id: 2,
-			name: 'mama'
-		},
-		{
-			id: 3,
-			name: 'lola'
+console.log( mapper.map('A00AAAAAAAAAA0','0AAAAABAAAA00000', setting))
 
-		},
-		{
-			id: 1022,
-			name: 'citizen z'
-		}
-	]
-))
+app.get('/', (req, res) => res.json([]))
 
 app.listen(port, () => console.log(`SecInKey listening at port ${port}`) )

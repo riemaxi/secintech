@@ -1,13 +1,14 @@
 
 class Matrix{
 	constructor(defaultValue){
-		this.defaultValue = defaultValue
+		this.defaultValue = defaultValue || 0 // == undefined?0:defaultValue
 		this.data = new Map()
-		this.maxpos = undifined 
+		this.maxpos = undefined
 	}
 
 	get(row, col){
-		return this.data[row + "." + col] || value
+		let value = this.data[row + "." + col]
+		return value == undefined?this.defaultValue : value
 	}
 
 	set(row, col, value){
@@ -27,6 +28,19 @@ class Mapper{
 		this.seqa = seqa
 		this.seqb = seqb
 		this.setmatrix()
+
+		this.print()
+
+	}
+
+	print(){
+		for(var col=0; col < this.seqb.length; col++){
+			var rowstr = ''
+			for(var row =0; row<this.seqa.length; row++){
+				rowstr += (' ' + this.matrix.get(row, col)).padStart(4)
+			}
+			console.log(rowstr)
+		}
 	}
 
 	reward(a,b){
@@ -39,14 +53,14 @@ class Mapper{
 	setmatrix(){
 		this.matrix = new Matrix()
 		var maxscore = -Infinity
-		for (col = 0; col < this.seqb.len; col++)
-			for(row =0; row < this.seqa.len; row++){
-				a = seqa[row]
-				b = seqb[col]
+		for (var col = 0; col < this.seqb.length; col++)
+			for(var row =0; row < this.seqa.length; row++){
+				let a = this.seqa[row]
+				let b = this.seqb[col]
 
-				score  = Math.max(this.matrix.get(row-1,col-1) + self.reward(a,b),
-						this.matrix.get(row-1,col) + self.gap_penalty,
-						this.matrix.get(row,col-1) + self.gap_penalty,
+				let score  = Math.max(this.matrix.get(row-1,col-1) + this.reward(a,b),
+						this.matrix.get(row-1,col) + this.gap_penalty,
+						this.matrix.get(row,col-1) + this.gap_penalty,
 						0 )
 
 				this.matrix.set(row, col, score)
@@ -67,7 +81,7 @@ class Mapper{
 		return a == b?1:0
 	}
 
-	maxdir(d, left, up){
+	maxdir(row, col){
 		var dir = {drow: -1,dcol: -1}
 		var max = this.matrix.get(row-1, col-1)
 		if (this.matrix.get(row,col-1) > max){
@@ -96,11 +110,7 @@ class Mapper{
 			let di = this.distance(row, col)
 			scr += di + this.match_threshold
 
-			let dir = this.maxdir(
-					[ row-1, col-1,-1,-1 ],
-					[ row, col-1,0,-1 ],
-					[ row-1, col,-1,0 ]
-				)
+			let dir = this.maxdir(row, col)
 
 			row += dir.drow
 			col += dir.dcol
@@ -111,8 +121,19 @@ class Mapper{
 	}
 }
 
-exports.map = function(seqa, seqb, setting){
-	let mapper = new Mapper(seqa, seqb, setting).score()
+exports.map = function(a,b, setting){
+	let mapper = new Mapper(a,b,setting)
 
 	return mapper.score()
+}
+
+exports.mine = function(data, challenge){
+	//insert data
+	//using challenge.mutation
+	//starting pow = 0
+	//	apply mapping of challenge.sequence until score <= shallenge.score 
+	//	(incr pow on each iteration)
+	//	geneate a hash on every iteration using pow + timestamp + data
+	//update the blockchain with (pow, timestamp, data, hash)
+	//return pow
 }
