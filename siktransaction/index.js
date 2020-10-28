@@ -3,10 +3,11 @@ const mapper = require('./mapper')
 const port = 3000
 
 const setting = {
+	matchScore : 1,
 	mismatchScore : -1
 }
 
-console.log( mapper.map('A00AAAAAAAAAA0','0AAAAABAAAA00000', setting))
+console.log( mapper.challenge('AA00AA0','A0000A0', setting))
 
 app.get('/', (req, res) => res.json([]))
 

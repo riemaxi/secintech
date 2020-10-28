@@ -14,6 +14,10 @@ class Matrix{
 	set(row, col, value){
 		this.data[row + "." + col] = value
 	}
+
+	rbvalue(){
+		return this.get(this.rows-1, this.cols-1)
+	}
 }
 
 
@@ -23,6 +27,7 @@ class Mapper{
 		this.seqb = seqb
 
 		this.mismatchScore = setting.mismatchScore
+		this.matchScore = setting.matchScore
 
 		this.initmatrix()
 	}
@@ -55,37 +60,58 @@ class Mapper{
 	}
 
 	similarity(a,b){
-		return a==b?1:0
+		return a==b?this.matchScore:this.mismatchScore
 	}
 
 	score(){
-		var maxScore = this.matrix.get(1,1)
 		for(var col = 2; col < this.matrix.cols; col++)
 			for(var row = 2; row < this.matrix.rows; row++){
 				let a = this.matrix.get(0, col)
 				let b = this.matrix.get(row, 0)
 
-				let matchScore = this.matrix.get(col-1, row-1 + this.similarity(a,b))
+				let matchScore = this.matrix.get(col-1, row-1) + this.similarity(a,b)
 				let deleteScore = this.matrix.get(col-1, row) + this.mismatchScore
 				let insertScore = this.matrix.get(col, row-1) + this.mismatchScore
 
-				var currentScore = Math.max(matchScore, deleteScore, insertScore)
 
-				this.matrix.set(row, col, currentScore)
-
-				maxScore = Math.max( maxScore, currentScore)
+				this.matrix.set(row, col, Math.max(matchScore, deleteScore, insertScore))
 			}
 
-		return maxScore
+
+		return  this.matrix.rbvalue()
 	}
 }
 
-
-exports.map = function(seqa, seqb, setting){
+function score(seqa, seqb, setting){
 	let mapper = new Mapper(seqa, seqb, setting)
-	let score = mapper.score()
+	let scr = mapper.score()
 
-	mapper.print()
+	return scr
+}
 
-	return score
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+}
+
+function mutate(seq){
+	let idx = Math.floor( Math.random()*seq.length )
+	return seq.replaceAt( idx , '0' )
+}
+
+
+exports.map = score
+
+exports.challenge = function(seqa, seqb, setting){
+	let mapper = new Mapper(seqa, seqb, setting)
+	var scr = mapper.score()
+
+	while (scr > 2){
+		seqb = mutate(seqb)
+
+		mapper = new Mapper(seqa, seqb, setting)
+		scr = mapper.score()
+	}
+
+
+	return scr
 }
