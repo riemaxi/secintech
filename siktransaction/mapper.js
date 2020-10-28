@@ -105,7 +105,7 @@ exports.challenge = function(seqa, seqb, setting){
 	let mapper = new Mapper(seqa, seqb, setting)
 	var scr = mapper.score()
 
-	while (scr > 2){
+	while (scr >= setting.minScore){
 		seqb = mutate(seqb)
 
 		mapper = new Mapper(seqa, seqb, setting)
