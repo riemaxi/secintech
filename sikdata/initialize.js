@@ -32,8 +32,8 @@ db.exec('drop table contract')
 
 const contractTable = `create table contract(
 type int,
-start datetime,
-end datetime,
+start varchar(50),
+end varchar(50),
 data text
 )`
 
@@ -51,8 +51,8 @@ db.exec('drop table access')
 
 const accessTable = `create table access(
 type int,
-start datetime,
-end datetime,
+start varchar(50),
+end varchar(50),
 data text
 )`
 

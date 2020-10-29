@@ -29,8 +29,8 @@ class ContractManager{
 	}
 
 	add(c, result){
-		let query = `insert into contract(type, start, end, data) values(${c.type}, ${c.start}, ${c.end}, '${c.data}' )`
-		this.db.exec(query, (error) => result(tx, error))
+		let query = `insert into contract(type, start, end, data) values(${c.type}, '${c.start}', '${c.end}', '${c.data}' )`
+		this.db.exec(query, (error) => result(c, error))
 	}
 
 	collection(collect){
@@ -98,7 +98,7 @@ class Manager{
 		this.db = new sql.Database(dbpath)
 
 		this.txManager = new TransactionManager(this.db)
-		this.ctrManager = new ContractManager(this.db)
+		this.contractManager = new ContractManager(this.db)
 		this.accessManager = new AccessManager(this.db)
 		this.userManager = new UserManager(this.db)
 	}
