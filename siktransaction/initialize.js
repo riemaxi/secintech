@@ -9,9 +9,11 @@ const db = new sql.Database(dbpath, (error) => {
 })
 
 //Block
+db.exec('drop table if exists block')
+
 const blockTable = `create table block(
-id DATETIME DEFAULT CURRENT_TIMESTAMP primary key,
 pow bigint,
+capacity int,
 hash varchar(255)
 )`
 
@@ -25,11 +27,14 @@ db.exec(blockTable, (error) => {
 })
 
 //Item
+db.exec('drop table if exists item')
+
 const itemTable = `create table item(
-id DATETIME DEFAULT CURRENT_TIMESTAMP primary key,
 block bigint,
-data text
-)`
+idx bigint,
+data text,
+primary key (block, idx)
+) without rowid`
 
 db.exec(itemTable, (error) => {
 	if (error){
