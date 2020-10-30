@@ -43,10 +43,6 @@ class ContractManager{
 		})
 	}
 
-	close(){
-		this.db.close()
-	}
-
 }
 
 

@@ -54,8 +54,8 @@ function populateContract(mgr){
 }
 
 
-//populateTransaction(manager.txManager)
+populateTransaction(manager.txManager)
 
-populateContract(manager.contractManager)
+//populateContract(manager.contractManager)
 
 manager.close()
