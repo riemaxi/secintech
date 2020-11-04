@@ -4,7 +4,7 @@ class ACD{
 	}
 
 	check(){
-		return 0
+		return []
 	}
 }
 

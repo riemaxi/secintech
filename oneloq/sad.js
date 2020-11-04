@@ -4,7 +4,7 @@ class SAD{
 	}
 
 	check(){
-		return 0
+		return []
 	}
 }
 

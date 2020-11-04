@@ -4,7 +4,7 @@ class OLS{
 	}
 
 	check(){
-		return 0 
+		return []
 	}
 }
 
