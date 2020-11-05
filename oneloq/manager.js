@@ -1,6 +1,6 @@
-const acd = require('./acd').instance()
-const ols = require('./ols').instance()
-const sad = require('./sad').instance()
+const acdmanager = require('./device/acdmanager').instance()
+const olsmanager = require('./device/olsmanager').instance()
+const sadmanager = require('./device/sadmanager').instance()
 
 class Manager{
 	constructor(){
@@ -8,9 +8,9 @@ class Manager{
 
 	check(){
 		return {
-				acd: acd.check(),
-				ols: ols.check(),
-				sad: sad.check()
+				acdmanager: acdmanager.check(),
+				olsmanager: olsmanager.check(),
+				sadmanager: sadmanager.check()
 			}
 	}
 }
