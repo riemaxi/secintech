@@ -1,6 +1,6 @@
 const app = require('express')()
-const sis = require('./extern/sis').instance()
-const sik = require('./extern/sik').instance()
+const sis = require('./extern/sis/index').instance()
+const sik = require('./extern/sik/index').instance()
 const manager = require('./manager').instance()
 
 const port = 10000
