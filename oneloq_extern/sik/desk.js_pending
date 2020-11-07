@@ -1,0 +1,11 @@
+
+class Desk{
+}
+
+
+function instance(){
+	return new Desk()
+}
+
+
+exports.instance = instance
