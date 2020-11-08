@@ -1,0 +1,24 @@
+OLS
+
+*************************************************************************
+task oriented programming is about structuring a program in terms of tasks
+Each task has been assigned:
+- time slot
+- memory
+- priority
+
+The schedule will select a group of tasks to execute fpr a time period > time slot
+**********************************************************************************
+
+- Given: task oriented implementation offered by espressif
+- find the best task schedule to deliver (time, memory, priority for each task)
+
+ - commands from the OLS representative on OLC to SAD (a task attending k relay channels)
+ - do planned deployment (a task sending chuncks of bytes to the flash memory and rebooting when all the data is transferred)
+ - notify SAD messages to the OLS representative on OLC
+ - setting command from OLS representative on OLC
+	State notification frequency
+	Device parameters
+
+
+

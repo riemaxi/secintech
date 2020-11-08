@@ -1,4 +1,6 @@
-const app = require('express')()
+const express = require('express')
+const app = express()
+
 const sis = require('./extern/sis/index').instance()
 const sik = require('./extern/sik/index').instance()
 const manager = require('./manager').instance()

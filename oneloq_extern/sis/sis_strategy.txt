@@ -1,0 +1,31 @@
+****************************************************************************
+based on
+AWS Rekognition and sentiment analysis tools
+
+rekognition
+https://aws.amazon.com/rekognition/?blog-cards.sort-by=item.additionalFields.createdDate&blog-cards.sort-order=desc
+
+top ten sentiment analysis tools
+https://blog.hubspot.com/service/sentiment-analysis-tools
+***************************************************************************************
+
+registering object of interest (by category)
+ input
+  binary stream
+  id of known object
+
+recognition
+ - input
+    binary stream
+ output
+	none or registered object
+
+
+context analysis
+input
+	binary stream
+	context (week day, weekend, summertime, fes)
+
+ouput
+	belongingness (0 to 1)	
+ 

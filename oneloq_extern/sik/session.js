@@ -47,11 +47,16 @@ class Session{
 				c- insert: BB9FAG934831A00GG19AAA11 (0.4)
 				c- point mutation: BB9FAA934831A00BG19AAA11 (0.3)
 
-				find the location of this segment BB9FAA934831A00BG19AAA11 (block, index within the block)
-			- send challenge new item to miner (receives the x winners that found the right answer within a y timeframe)
+				find the location of this segment BB9FAA934831A00BG19AAA11 (block, index within the block) given a chain segment
+			- send challenge new item to miner  (receives the x winners that found the right answer within a y timeframe)
 				select the best winner -> greatest score: n earliest, longest chain, greatest alignment score, greatest pow
+				get the winner's hash
 			- replace the current blockchain with the winner
+			- broadcast the winner to the external miners (every external miner should have the same winner blockchain)
 
+			notes: PoW for external miners must be rewarded 
+				there is a registration procedure (request) for external miners)
+				there are periodically releases of the winner blockchain in order to accept a number of new external miners (at a specfic reward rate)
 			*/
 	}
 }

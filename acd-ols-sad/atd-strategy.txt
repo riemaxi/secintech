@@ -1,0 +1,23 @@
+ATD
+
+*************************************************************************
+task oriented programming is about structuring a program in terms of tasks
+Each task has been assigned:
+- time slot
+- memory
+- priority
+
+The schedule will select a group of tasks to execute fpr a time period > time slot
+**********************************************************************************
+
+- Given: task oriented implementation offered by espressif
+- find the best task schedule to deliver (time, memory, priority for each task)
+
+ - do planned deployment (a task sending chuncks of bytes to the flash memory and rebooting when all the data is transferred)
+ - notify WatchDog signal to ATD representative on OLC
+ - setting command from ATD representative on OLC
+	State notification frequency
+	Device parameters 
+	Anomaly pattern detector (software)
+
+
