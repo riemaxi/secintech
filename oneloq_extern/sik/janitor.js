@@ -2,7 +2,7 @@ let app = require('express')()
 
 class Session{
 	constructor(port){
-		app.get('/check')
+		app.get('/check', (req, res) => res.json({ check: 0}))
 		app.listen(port, () => console.log(`new session on ${port} ...`))
 	}
 }

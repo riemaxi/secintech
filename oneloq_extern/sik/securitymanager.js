@@ -10,7 +10,7 @@ class SecurityManager{
 	}
 
 	login(user, password){
-		return user == 'u' && password == 'p'
+		return user == 'u' && password == 'p'? 0 : -1
 	}
 }
 

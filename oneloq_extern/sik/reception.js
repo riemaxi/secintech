@@ -1,11 +1,11 @@
 const app = require('express')()
 const config = require('./config.json')
-const securityManager = require('./securityManager').instance()
+const securityManager = require('./securitymanager').instance()
 const janitor = require('./janitor').instance( securityManager.numberOfUsers )
 
 function login(user, password){
-	let id = securityManager.login(req.params.user, req.params.password)
-	return janitor.desk(id).newSession()? id : 0
+	let id = securityManager.login(user, password)
+	return id >= 0 ? janitor.desk(id).newSession() : 0
 }
 
 
