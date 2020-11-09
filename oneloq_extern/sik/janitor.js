@@ -7,15 +7,20 @@ class Desk{
 	}
 
 	newSession(){
-		new Session(this.sessionPort)
+		this.session = new Session(this.sessionPort)
 		return this.sessionPort
+	}
+
+	closeSession(){
+		this.session.close()
+		delete this.session
 	}
 }
 
 class Janitor{
 	constructor(nou){
 		let initialPort = 30000
-		this.desks = []
+		this.desks = {}
 		for(var i=0; i<nou; i++){
 			this.desks[i] = new Desk(initialPort + i)
 		}
@@ -24,7 +29,6 @@ class Janitor{
 	desk(id){
 		return this.desks[id]
 	}
-
 }
 
 function instance(nou){
