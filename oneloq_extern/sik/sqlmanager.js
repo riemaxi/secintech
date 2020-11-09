@@ -1,6 +1,5 @@
 const sql = require('sqlite3').verbose()
 
-
 class SQLManager{
 	constructor(dbpath){
 		this.db = new sql.Database(dbpath)
@@ -10,12 +9,15 @@ class SQLManager{
 	initialize(){
 	}
 
+	createTable(name, definition, handle){
+		this.db.exec(`drop table if exists ${name}`)
+		console.log(`create table ${name}(${definition})`)
+		this.db.exec(`create table ${name}(${definition})`, handle )
+	}
+
 	insert(name, fields, item, handle){
-		this.db.exec(`insert into table ${name}(${fields}) values(${item})`, 
-				(error) => {
-					if (!error && handle)
-						handle(error)
-				})
+		console.log(`insert into ${name}(${fields}) values(${item})`)
+		this.db.exec(`insert into ${name}(${fields}) values(${item})`, handle )
 	}
 
 	collection(query, collect){
@@ -33,8 +35,4 @@ class SQLManager{
 	}
 }
 
-function instance(dbpath){
-	return SQLManager(dbpath)
-}
-
-exports.instance = instance
+module.exports = SQLManager

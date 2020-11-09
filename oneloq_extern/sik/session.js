@@ -1,5 +1,4 @@
 const app = require('express')()
-const sql = require('sqlite3').verbose()
 
 class Session{
 	constructor(port){
