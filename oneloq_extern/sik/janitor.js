@@ -1,11 +1,5 @@
 let app = require('express')()
-
-class Session{
-	constructor(port){
-		app.get('/check', (req, res) => res.json({ check: 0}))
-		app.listen(port, () => console.log(`new session on ${port} ...`))
-	}
-}
+const Session = require('./session')
 
 class Desk{
 	constructor(sessionPort){
