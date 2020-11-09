@@ -5,8 +5,8 @@ class SecurityManager{
 		//this.db = new sql.Database(dbpath)
 	}
 
-	isTokenValid(token){
-		return  true
+	get numberOfUsers(){
+		return 1
 	}
 
 	login(user, password){

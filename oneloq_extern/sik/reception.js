@@ -1,22 +1,15 @@
 const app = require('express')()
+const config = require('./config.json')
+const securityManager = require('./securityManager').instance()
+const janitor = require('./janitor').instance( securityManager.numberOfUsers )
 
-const dbpath = './db/data.db'
-
-const session = require('./session').instance(dbpath)
-const securityManager = require('./securitymanager').instance(dbpath)
-
-
-function response(command,  req.params){
-
+function login(user, password){
+	let id = securityManager.login(req.params.user, req.params.password)
+	return janitor.desk(id).newSession()? id : 0
 }
 
-app.get('/login/:user/:password', (req, res) => res.json( securityManager.login(req.params.user, req.params.password) ))
 
-app.get('/check/:token', (req, res) => res.json(sik.check()))
+app.get('/login/:user/:password', (req, res) => res.json( login(req.params.user, req.params.password) ))
 
-app.get('/newkey/:token/:user/:requester/:access', (req, res) => res.json( session.newkey( req.params ) ))
-app.get('/getkey/:token/:user/:access', (req, res) => res.json( session.getkey( req.params ) ))
-app.get('/confirmkey/:token/:user/:access', (req, res) => res.json( session.confirmkey( req.params ) ) )
-
-let port = 10000
+let port = config.port
 app.listen(port, (err) => console.log(`Sik reception on port ${port} ...`))
