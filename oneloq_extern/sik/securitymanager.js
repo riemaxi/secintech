@@ -11,8 +11,8 @@ class SecurityManager{
 	}
 
 	login(user, password, handle){
-		let query = `select rowid as id from access where user = '${user}' and password = '${password}' union select -1 as id`
-		this.db.collection(query, (item) => { handle(item.id) })
+		let query = `select max(id) as id from (select rowid as id from access where user = '${user}' and password = '${password}' union select -1 as id)`
+		this.db.collection(query, (item) => { console.log(item.id); handle(item.id) })
 	}
 }
 

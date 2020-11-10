@@ -7,7 +7,7 @@ class Session{
 
 		app.get('/check', (req, res) => res.json( this.check() ))
 
-		app.get('/checkaccess/:time/:start/:end/:type/:data',(req, res) =>  this.checkAccess(req.params, res)  )
+		app.get('/checkaccess/:time/:owner/:start/:end/:type/:data',(req, res) =>  this.checkAccess(req.params, res)  )
 
 		this.server = app.listen(port, () => console.log(`new session on ${port} ...`))
 	}

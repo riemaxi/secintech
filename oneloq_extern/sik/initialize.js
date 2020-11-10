@@ -15,7 +15,7 @@ class DBInitializer extends SQLManager{
 
 		this.createTable(
 			'key',
-			'start varchar(21), end varchar(21), type bigint, data text')
+			'owner varchar(256), start varchar(21), end varchar(21), type bigint, data text')
 
 		this.populateUsers()
 		this.populateKeys()
@@ -32,7 +32,7 @@ class DBInitializer extends SQLManager{
 	}
 
 	populateKeys(){
-		this.insert('key','start, end, type, data',"'2020-11-01T00:00:00','2021-11-01T00:00:00', 0,'AAAAXXXFF'")
+		this.insert('key','owner, start, end, type, data',"'202011178891AAF','2020-11-01T00:00:00','2021-11-01T00:00:00', 0,'AAAAXXXFF'")
 		this.collection('select * from key', (item) => 	console.log(item) )
 	}
 

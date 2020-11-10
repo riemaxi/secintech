@@ -19,15 +19,17 @@ class Desk{
 
 class Janitor{
 	constructor(nou){
-		let initialPort = 30000
+		this.initialPort = 30000
 		this.desks = {}
-		for(var i=0; i<nou; i++){
-			this.desks[i] = new Desk(initialPort + i)
-		}
 	}
 
 	desk(id){
-		return this.desks[id]
+		var dsk = this.desks[id]
+
+		if (!dsk)
+			dsk = this.desks[id] = new Desk(this.initialPort + id)
+
+		return dsk
 	}
 }
 

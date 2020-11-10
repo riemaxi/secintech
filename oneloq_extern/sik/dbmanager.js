@@ -11,8 +11,8 @@ class DBManager extends SQLManager{
                 let x = k.time
 
 		if (a <= x && x <= b){
-			let query = `select count(*) cnt from key where start = '${k.start}' and end = '${k.end}' and type = ${k.type} and data = '${k.data}'`
-			this.collection(query, (item) => handle(item.cnt) )
+			let query = `select count(*) cnt from key where owner = '${k.owner}' and start = '${k.start}' and end = '${k.end}' and type = ${k.type} and data = '${k.data}'`
+			this.collection(query, (item) => handle(item.cnt > 0) )
 		}
 		else
 			handle(false)
