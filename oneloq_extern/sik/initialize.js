@@ -1,15 +1,47 @@
-const sql = require('sqlite3').verbose()
+const config = require('./config.json')
+const SQLManager = require('./sqlmanager')
 
-const dbpath = './db/data.db'
-const manager = require('./manager').manager(dbpath)
-
-const db = new sql.Database(dbpath, (error) => {
-	if (!error){
-		console.log(`${dbpath} created`)
+class DBInitializer extends SQLManager{
+	constructor(dbpath){
+		super(dbpath)
 	}
-})
 
-//Block
+	initialize(){
+		this.dropTables(['key','access'])
+
+		this.createTable(
+			'access',
+			'user varchar(256), password varchar(256)')
+
+		this.createTable(
+			'key',
+			'start varchar(21), end varchar(21), type bigint, data text')
+
+		this.populateUsers()
+		this.populateKeys()
+
+	}
+
+	populateUsers(){
+		this.insert('access','user, password',"'u','p'")
+
+		this.collection('select count(*) cnt from access', (item) => {
+			console.log(`count: ${item.cnt}`)
+			this.numberOfUsers = item.cnt
+		})
+	}
+
+	populateKeys(){
+		this.insert('key','start, end, type, data',"'2020-11-01T00:00:00','2021-11-01T00:00:00', 0,'AAAAXXXFF'")
+		this.collection('select * from key', (item) => 	console.log(item) )
+	}
+
+}
+
+new DBInitializer(config.dbpath)
+
+
+/*Block
 db.exec('drop table if exists block')
 
 const blockTable = `create table block(
@@ -74,3 +106,4 @@ db.close((error) => {
 
 	}
 })
+*/

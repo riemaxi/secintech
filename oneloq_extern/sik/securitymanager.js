@@ -1,8 +1,8 @@
-const SQLManager = require('./sqlmanager')
+const DBManager = require('./dbmanager')
 
 class SecurityManager{
 	constructor(dbpath){
-		//this.db = SQLManager(dbpath)
+		this.db = new DBManager(dbpath)
 	}
 
 	get numberOfUsers(){
@@ -11,8 +11,8 @@ class SecurityManager{
 	}
 
 	login(user, password, handle){
-		//this.db.lookup('access', {user: user, password: password}, (item) => handle(item.rowid) )
-		return user == 'u' && password == 'p' ? 0 : -1
+		let query = `select rowid as id from access where user = '${user}' and password = '${password}' union select -1 as id`
+		this.db.collection(query, (item) => { handle(item.id) })
 	}
 }
 
