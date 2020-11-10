@@ -1,4 +1,4 @@
-const SQLManager = require('sqlmanager')
+const SQLManager = require('./sqlmanager')
 
 class SecurityManager{
 	constructor(dbpath){

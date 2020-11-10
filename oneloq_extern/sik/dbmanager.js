@@ -1,5 +1,4 @@
 const SQLManager = require('./sqlmanager')
-const config = require('./config.json')
 
 class DBManager extends SQLManager{
 	constructor(dbpath){
@@ -36,18 +35,22 @@ class DBManager extends SQLManager{
 		this.collection('select * from key', (item) => 	console.log(item) )
 	}
 
-	checkKey(key, handle){
+	checkAccess(k, handle){
+		console.log(`dbmanager.checkAccess: ${k.start}`)
+		console.log(`dbmanager.checkAccess: ${k.end}`)
+		console.log(`dbmanager.checkAccess: ${k.type}`)
+		console.log(`dbmanager.checkAccess: ${k.data}`)
 		/*let params = key.split(':')
 		let start = params[0]
 		let end = params[1]
 		let type = params[2]
 		let data = params[3]*/
 
-		let query = `select count(*) cnt from key where start = '${key.start}' and end = '${key.end}' type = ${key.type} and text = '${key.data}}'`
-		this.collection(query, (item) => handle(item.cnt > 0) )
+		/*let query = `select count(*) cnt from key where start = '${k.start}' and end = '${k.end}' and type = ${k.keytype} and data = '${k.data}}'`
+		this.collection(query, (item) => handle(item.cnt > 0) )*/
+		handle(1)
 	}
 }
 
-let mgr = new DBManager(config.dbpath)
 
-mgr.close()
+module.exports = DBManager

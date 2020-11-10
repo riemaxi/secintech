@@ -5,7 +5,7 @@ const janitor = require('./janitor').instance( securityManager.numberOfUsers )
 
 function login(user, password){
 	let id = securityManager.login(user, password)
-	return id >= 0 ? janitor.desk(id).newSession() : 0
+	return id >= 0 ? janitor.desk(id).newSession(config.dbpath) : 0
 }
 
 function closeSession(user, password){

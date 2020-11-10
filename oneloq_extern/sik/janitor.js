@@ -6,8 +6,8 @@ class Desk{
 		this.sessionPort = sessionPort
 	}
 
-	newSession(){
-		this.session = new Session(this.sessionPort)
+	newSession(dbpath){
+		this.session = new Session(this.sessionPort, dbpath)
 		return this.sessionPort
 	}
 

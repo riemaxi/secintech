@@ -9,15 +9,24 @@ class SQLManager{
 	initialize(){
 	}
 
+	dropTables(names){
+		names.forEach(name => this.db.exec(`drop table if exists ${name}`) )
+	}
+
+	count(name, handle){
+		this.db.exec(`select count(rowid) from ${name}`, (rows, error) => handle(rows))
+	}
+
 	createTable(name, definition, handle){
-		this.db.exec(`drop table if exists ${name}`)
 		console.log(`create table ${name}(${definition})`)
 		this.db.exec(`create table ${name}(${definition})`, handle )
 	}
 
 	insert(name, fields, item, handle){
-		console.log(`insert into ${name}(${fields}) values(${item})`)
+		console.log(`insert into ${name}` )
 		this.db.exec(`insert into ${name}(${fields}) values(${item})`, handle )
+
+
 	}
 
 	collection(query, collect){
