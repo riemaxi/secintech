@@ -33,11 +33,11 @@ class SecurityManager{
 		return { response: 0 }
 	}
 
-	checkAccess(port,owner, type, data, handle){
+	checkAccess(token, port,owner, type, data, handle){
 		let x = new Date().getTime()
 		let uriData = encodeURIComponent(data)
 
-		this.request(`/checkaccess/${x}/${owner}/${type}/${uriData}`, port,
+		this.request(`/checkaccess/${token}/${x}/${owner}/${type}/${uriData}`, port,
 			(res) => handle(res) )
 	}
 }

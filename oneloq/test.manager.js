@@ -14,4 +14,19 @@ let data = 'AAAAXXXFF'
 
 let port = 30001
 
-manager.checkAccess(port, owner,type, data, (res) => console.log('access: ' + res))
+
+manager.sikLogin(config.sikuser, config.sikpassword, (res) => {
+	console.log('sik login: ' + res + '\n')
+})
+
+
+manager.checkAccess(port, owner,type, data,(res) => {
+	console.log('access: ' + res)
+
+	let params = res.port.split(':')
+	let port = params[0]
+	let token = params[1]
+	
+
+})
+

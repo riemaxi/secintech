@@ -29,12 +29,16 @@ class SQLManager{
 
 	}
 
-	collection(query, collect){
+	collection(query, collect, empty){
 		this.db.all(query, (error, rows) => {
 			if (error)
 				console.log(error)
-			else
-				rows.forEach( collect )
+			else{
+				if (rows.length > 0)
+					rows.forEach( collect )
+				else
+					empty()
+			}
 		})
 	}
 

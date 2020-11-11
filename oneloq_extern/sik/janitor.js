@@ -8,12 +8,11 @@ class Desk{
 
 	newSession(dbpath){
 		this.session = new Session(this.sessionPort, dbpath)
-		return this.sessionPort
+		return this.sessionPort + ':' + this.session.token
 	}
 
 	closeSession(){
 		this.session.close()
-		delete this.session
 	}
 }
 

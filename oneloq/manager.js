@@ -21,8 +21,8 @@ class Manager{
 		this.securityManager.login(user, password, handle)
 	}
 
-	checkAccess(port, owner, start, end, type, data, handle){
-		this.securityManager.checkAccess(port, owner, start, end, type, data, handle)
+	checkAccess(token, port, owner, start, end, type, data, handle){
+		this.securityManager.checkAccess(token, port, owner, start, end, type, data, handle)
 	}
 
 }

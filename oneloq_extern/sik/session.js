@@ -1,13 +1,31 @@
 const app = require('express')()
 const DBManager = require('./dbmanager')
 
+class Manager{
+	constructor(dbpath){
+		this.db = DBManager(dbpath)
+	}
+
+	checkAccess(key, handle){
+		this.db.checkAccess(key, handle)
+	}
+
+	close(){
+		this.db.close()
+	}
+
+}
+
 class Session{
 	constructor(port, dbpath){
-		this.db = new DBManager(dbpath)
+		this.timeout = 10  //seconds
+		this.token = new Date().getTime()
+
+		this.mgr = new Manager(dbpath)
 
 		app.get('/check', (req, res) => res.json( this.check() ))
 
-		app.get('/checkaccess/:time/:owner/:start/:end/:type/:data',(req, res) =>  this.checkAccess(req.params, res)  )
+		app.get('/checkaccess/:token/:time/:owner/:type/:data',(req, res) =>  this.checkAccess(req.params.token,req.params, res)  )
 
 		this.server = app.listen(port, () => console.log(`new session on ${port} ...`))
 	}
@@ -16,13 +34,30 @@ class Session{
 		return { response: 0 }
 	}
 
-	checkAccess(key, res){
-		this.db.checkAccess(key, (exists) => res.json( {exists: exists}))
+	timedOut(token){
+		let current = new Date().getTime()
+		return Math.abs(current - token) > this.timeout * 1000
+
+	}
+
+	checkAccess(token, key, res){
+		if (this.timedOut(token)){
+			res.json({ status: 'timedout'})
+			close()
+ 		}
+		else
+			this.mgr.checkAccess(key, (exists) => res.json( {exists: exists, status : 'ok'}))
 	}
 
 	close(){
-		this.server.close()
-		console.log(this.server + '... closing')
+		if (this.server != null){
+			this.mgr.close()
+			this.server.close()
+
+			console.log(this.server + '... closing')
+
+			this.server = null
+		}
 		return { close : 0 }
 	}
 }
