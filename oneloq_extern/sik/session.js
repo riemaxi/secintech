@@ -1,20 +1,5 @@
 const app = require('express')()
-const DBManager = require('./dbmanager')
-
-class Manager{
-	constructor(dbpath){
-		this.db = DBManager(dbpath)
-	}
-
-	checkAccess(key, handle){
-		this.db.checkAccess(key, handle)
-	}
-
-	close(){
-		this.db.close()
-	}
-
-}
+const Manager = require('./manager')
 
 class Session{
 	constructor(port, dbpath){
