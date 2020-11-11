@@ -22,6 +22,11 @@ class SQLManager{
 		this.db.exec(`create table ${name}(${definition})`, handle )
 	}
 
+	createCleanTable(name, definition, handle){
+		console.log(`create table ${name}(${definition})`)
+		this.db.exec(`create table ${name}(${definition}) without  rowid`, handle )
+	}
+
 	insert(name, fields, item, handle){
 		console.log(`insert into ${name}` )
 		this.db.exec(`insert into ${name}(${fields}) values(${item})`, handle )

@@ -7,7 +7,7 @@ class DBInitializer extends SQLManager{
 	}
 
 	initialize(){
-		this.dropTables(['key','access'])
+		this.dropTables(['key','access','txn'])
 
 		this.createTable(
 			'access',
@@ -15,7 +15,12 @@ class DBInitializer extends SQLManager{
 
 		this.createTable(
 			'key',
-			'owner varchar(256), start varchar(21), end varchar(21), type bigint, data text')
+			'owner varchar(256), start varchar(21), end varchar(21), type bigint, data text, active boolean')
+
+		this.createCleanTable(
+			'txn',
+			'id varchar(256) primary key, time varchar(21), contract varchar(256), sender varchar(256), recipient varchar(256),  data  varchar(256)'
+		)
 
 		this.populateUsers()
 		this.populateKeys()
@@ -32,7 +37,7 @@ class DBInitializer extends SQLManager{
 	}
 
 	populateKeys(){
-		this.insert('key','owner, start, end, type, data',"'202011178891AAF','2020-11-01T00:00:00','2021-11-01T00:00:00', 0,'AAAAXXXFF'")
+		this.insert('key','owner, start, end, type, data, active',"'202011178891AAF','2020-11-01T00:00:00','2021-11-01T00:00:00', 0,'AAAAXXXFF', true")
 		this.collection('select * from key', (item) => 	console.log(item) )
 	}
 
