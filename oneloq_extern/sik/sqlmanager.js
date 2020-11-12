@@ -14,7 +14,7 @@ class SQLManager{
 	}
 
 	count(name, handle){
-		this.db.exec(`select count(rowid) from ${name}`, (rows, error) => handle(rows))
+		this.db.exec(`select count(rowid) as cnt from ${name}`, (rows, error) => handle(rows.length))
 	}
 
 	createTable(name, definition, handle){
@@ -34,6 +34,18 @@ class SQLManager{
 
 	}
 
+	_transaction(queries, handle){
+		this.db.exec(	'BEGIN;' + queries.join(';') ,
+				(error) => this.db.exec(error?'ROLLBACK;':'COMMIT;'))
+	}
+
+	transaction(queries, handle){
+		let query = 'BEGIN;' +  queries.join(';') + ';COMMIT;'
+
+		this.db.exec(	query,
+				(error) => { if (error) this.db.exec('ROLLBACK;')} )
+	}
+
 	collection(query, collect, empty){
 		this.db.all(query, (error, rows) => {
 			if (error)
@@ -48,8 +60,8 @@ class SQLManager{
 	}
 
 
-	close(){
-		this.db.close()
+	close(handle){
+		this.db.close(handle)
 	}
 }
 

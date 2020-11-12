@@ -69,6 +69,9 @@ class DBInitializer extends SQLManager{
 		procedure = 'sql : insert into key'
 		this.insert('contract',	fields,`'${id}','${signed}', '${start}', '${end}', '${parta}',  '${partb}', '${type}',  '${price}', '${parameters}', '${procedure}'`)
 
+		this.collection('select * from contract', (item) => 	console.log(item) )
+
+
 	}
 
 }
