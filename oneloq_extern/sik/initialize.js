@@ -7,7 +7,7 @@ class DBInitializer extends SQLManager{
 	}
 
 	initialize(){
-		this.dropTables(['key','access','txn'])
+		this.dropTables(['key','access','txn','contract'])
 
 		this.createTable(
 			'access',
@@ -18,12 +18,18 @@ class DBInitializer extends SQLManager{
 			'owner varchar(256), start varchar(21), end varchar(21), type bigint, data text, active boolean')
 
 		this.createCleanTable(
+			'contract',
+			'id varchar(256) primary key,signed varchar(21), start varchar(21), end varchar(21),   parta varchar(256), partb varchar(256), type varchar(256), price varchar(256), parameters text, procedure text'
+		)
+
+		this.createTable(
 			'txn',
-			'id varchar(256) primary key, time varchar(21), contract varchar(256), sender varchar(256), recipient varchar(256),  data  varchar(256)'
+			'time bigint, contract varchar(256), sender varchar(256), recipient varchar(256),  data varchar(256)'
 		)
 
 		this.populateUsers()
 		this.populateKeys()
+		this.populateContracts()
 
 	}
 
@@ -39,6 +45,30 @@ class DBInitializer extends SQLManager{
 	populateKeys(){
 		this.insert('key','owner, start, end, type, data, active',"'202011178891AAF','2020-11-01T00:00:00','2021-11-01T00:00:00', 0,'AAAAXXXFF', true")
 		this.collection('select * from key', (item) => 	console.log(item) )
+	}
+
+	populateContracts(){
+		let fields = 'id, signed, start, end,parta,partb,type,price, parameters, procedure'
+
+		let signed = '2020-01-01T00:00:00'
+		let start = '2020-01-01T00:00:00'
+		let end = '2025-01-01T00:00:00'
+		let parta = 'AAAAAAAAA'
+		let partb = 'BBBBBBBBB'
+		let price = '1:10-12:euro' //1 loqoin = 0.000 000 000 000 1 euros
+
+		var id = 'contract-0000'
+		var type = 'contract'
+		var parameters = 'fields'
+		var procedure = 'sql : insert into contract'
+		this.insert('contract',	fields,`'${id}','${signed}', '${start}', '${end}', '${parta}','${partb}', '${type}','${price}','${parameters}', '${procedure}'`)
+
+		id = 'key-0000'
+		type = 'key'
+		parameters = 'fields'
+		procedure = 'sql : insert into key'
+		this.insert('contract',	fields,`'${id}','${signed}', '${start}', '${end}', '${parta}',  '${partb}', '${type}',  '${price}', '${parameters}', '${procedure}'`)
+
 	}
 
 }
