@@ -43,7 +43,10 @@ class SQLManager{
 		let query = 'BEGIN;' +  queries.join(';') + ';COMMIT;'
 
 		this.db.exec(	query,
-				(error) => { if (error) this.db.exec('ROLLBACK;')} )
+				(error) => { 
+				if (error) this.db.exec('ROLLBACK;')
+				handle(error)
+			} )
 	}
 
 	collection(query, collect, empty){

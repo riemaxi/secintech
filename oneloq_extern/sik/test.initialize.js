@@ -1,4 +1,4 @@
-const config = require('./config.json')
+const config = require('./test.config.json')
 const SQLManager = require('./sqlmanager')
 
 class DBInitializer extends SQLManager{

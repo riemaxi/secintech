@@ -1,0 +1,4 @@
+{
+"dbpath" : "./db/test.data.db",
+"port" : 20000
+}
