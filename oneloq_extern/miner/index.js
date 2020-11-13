@@ -1,30 +1,31 @@
 let app = require('express')()
+let SQLManager = require('./sqlmanager')
 let Mapper = require('./mapper')
 
-//let reference = '000000000001111111111111111111111111111111110000000000000000000'
-//let pattern = '11111111111111111111111111'
-//let pattern = '887463002931194000000322'
+function mine(item, pattern, start, end, res){
 
-let reference = '0001111AFED0011DEEEFFAAABB001AAA03856AAB3323XF'
-let pattern = 'EFFAAABB001AAA'
+	//insert item (hash(256))
+	//load reference from table
+	let reference = ''
 
-let mapper = new Mapper(pattern, reference, (a,b) => {
-  let m = ['09','98','87', '76','65','54','43','4E','32','3E','21','CD','CF','DF','DE']
-  if (a == b)
-     return 1
+	let mapper = new Mapper(pattern, reference, (a,b) => {
+	  let m = ['09','98','87', '76','65','54','43','4E','32','3E','21','CD','CF','DF','DE']
+	  if (a == b)
+	     return 1
 
-  if (a+''+b in m || b+''+a in m)
-    return .5
+	  if (a+''+b in m || b+''+a in m)
+	    return .5
 
-  return 0
-})
+	  return 0
+	})
 
-console.log(mapper.scores(), mapper.maxIndex)
+}
 
-/*
+app.get('/mine/:powr/:item/:pattern/:start/:end', (req, res) => mine(req.params.item, req.params.pattern, req.params.start, req.params.end, res) )
+
 let port = 17000
 
 app.listen(port, () => {
 	console.log(`on port ${port} ...`)
-})*/
+})
 
