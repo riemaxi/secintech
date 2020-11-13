@@ -55,17 +55,17 @@ class DBInitializer extends SQLManager{
 		let end = '2025-01-01T00:00:00'
 		let parta = 'AAAAAAAAA'
 		let partb = 'BBBBBBBBB'
-		let price = '1:10-12:euro' //1 loqoin = 0.000 000 000 000 1 euros
+		let price = 'x:10-12:euro' //x loqoins = 0.000 000 000 000 1 euros
 
 		var id = 'contract-0000'
 		var type = 'contract'
-		var parameters = 'fields'
+		var parameters = 'all fields'
 		var procedure = 'sql : insert into contract'
 		this.insert('contract',	fields,`'${id}','${signed}', '${start}', '${end}', '${parta}','${partb}', '${type}','${price}','${parameters}', '${procedure}'`)
 
 		id = 'key-0000'
 		type = 'key'
-		parameters = 'fields'
+		parameters = 'all fields'
 		procedure = 'sql : insert into key'
 		this.insert('contract',	fields,`'${id}','${signed}', '${start}', '${end}', '${parta}',  '${partb}', '${type}',  '${price}', '${parameters}', '${procedure}'`)
 
