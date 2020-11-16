@@ -2,6 +2,7 @@ let app = require('express')()
 let config = require('./config')
 let SQLManager = require('./sqlmanager')
 let Mapper = require('./mapper')
+let Blockchain = require('./blockchain')
 
 const crypto = require('crypto')
 
@@ -56,48 +57,53 @@ function checkLastBlock(newitem, consume){
 	})
 }
 
-function mine(item, pattern, start, end, res){
-	//count the items in the last block select max(rowid) from block , select count(*) from item where block = lastblock
-	// if count < config.capacity add the item else create new block and add item to "lastblock"
-	// calculate hash using the hash of the previous block 
-	//
-	//challenge
-	//concat the data from block start to block end into segment
-	//search pattern in segment
-	//res.json(score, blix)
+function mapperMetric(a,b){
+	let m = ['09','98','87', '76','65','54','43','4E','32','3E','21','CD','CF','DF','DE']
+	if (a == b)
+	   return 1
 
-	let reference = '000AAABBFFF0010001FFABCDAAA'
+	if (a+''+b in m || b+''+a in m)
+	  return .5
 
-	let mapper = new Mapper(pattern, reference, (a,b) => {
-	  let m = ['09','98','87', '76','65','54','43','4E','32','3E','21','CD','CF','DF','DE']
-	  if (a == b)
-	     return 1
+	return 0
+}
 
-	  if (a+''+b in m || b+''+a in m)
-	    return .5
+function loadStripe(start, end, consume){
+	var stripe = ''
+	sql.collectionToClosure(`select data from item where rowid >= ${start} and rowid <= ${end}`,
+		(item) => stripe += item.data,
+		() => consume(stripe))
+}
 
-	  return 0
+function mine(item, pattern, start, end, consume){
+	checkLastBlock(item, () => {
+
+		loadStripe(start, end, (stripe) =>{
+			let mapper = new Mapper(pattern, stripe, mapperMetric)
+			let scores = mapper.scores()
+			consume(mapper.maxIndex, scores[mapper.maxIndex])
+		})
 	})
 
 }
 
-function domining(powr, item, pattern, start, end, res){
+function doMining(powr, item, pattern, start, end, res){
 	if (powr >= config.pow_rate){
-		mine(item, pattern, start, end, res)
+		mine(item, pattern, start, end, (blix, score) => res.json({blix: blix, score: score}))
 	}else
-		res.json({ response: '-1000'})
+		res.json({ blix: -1000, score: 0})
 }
 
-item = {
+let item = {
 	data: sha256(new Date().getTime() + '')
 }
 
-checkLastBlock(item, (msg) => {
-	console.log(msg)
-})
+let pattern = '9hq1a47fJ/Y/oIn1R0W3AnaRBX9pDOXJB0=KdUafNJ1SCQWLNFYTBjNRILWvAMMVvBm6HPBsFD25T0'
+
+mine(item, pattern, 0, 100000, (blix, score) => console.log(blix, score))
 
 /*
-app.get('/mine/:powr/:item/:pattern/:start/:end', (req, res) => domining(req.params.item, req.params.pattern, req.params.start, req.params.end, res) )
+app.get('/mine/:powr/:item/:pattern/:start/:end', (req, res) => doMining(req.params.item, req.params.pattern, req.params.start, req.params.end, res) )
 
 let port = 17000
 
