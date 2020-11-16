@@ -1,0 +1,6 @@
+{
+"dbpath" : "./db/data.db",
+"port" : 9000,
+"block_capacity" : 3,
+"pow_rate" : 1
+}
