@@ -1,4 +1,3 @@
-let app = require('express')()
 let config = require('./config')
 let SQLManager = require('./sqlmanager')
 let Mapper = require('./mapper')
@@ -94,8 +93,8 @@ function doMining(powr, item, pattern, start, end, res){
 		res.json({ blix: -1000, score: 0})
 }
 
-app.get('/mine/:powr/:item/:pattern/:start/:end', (req, res) => doMining(req.params.item, req.params.pattern, req.params.start, req.params.end, res) )
+let item = sha256(new Date().getTime() + '')
 
-app.listen(config.port, () => {
-	console.log(`on port ${config.port} ...`)
-})
+let pattern = '9hq1a47fJ/Y/oIn1R0W3AnaRBX9pDOXJB0=KdUafNJ1SCQWLNFYTBjNRILWvAMMVvBm6HPBsFD25T0'
+
+mine(item, pattern, 0, 100000, (blix, score) => console.log(blix, score))
