@@ -22,6 +22,12 @@ class Janitor{
 		this.desks = {}
 	}
 
+	closeSession(deskId){
+		this.desk(deskId).closeSession()
+		delete this.desks[deskId]
+		console.log(deskId + ' deleted ...')
+	}
+
 	desk(id){
 		var dsk = this.desks[id]
 

@@ -7,10 +7,29 @@ class Session{
 		this.token = new Date().getTime()
 
 		this.mgr = new Manager(dbpath)
+		console.log('new Manager')
+
 
 		app.get('/check', (req, res) => res.json( this.check() ))
 
 		app.get('/checkaccess/:token/:time/:owner/:type/:data',(req, res) =>  this.checkAccess(req.params.token,req.params, res)  )
+		/*
+		+app.get('/addkey/:token/:time/:owner/') // status = inactive
+		+app.get('/updatekey/:token/:time/:owner/')
+		+app.get('/confirmkey/:token/:time/:owner/') // status = activate
+		+app.get('/deactivate/:token/:time/:owner/') // status = deactivated
+
+		++app.get('/addcontract/:token/:time/owner/')
+		app.get('/updatecontract/:token/:time/owner/')
+
+		+app.get('/blockchain/key/:token/:time/:from/:limit/:criteria') //json format
+		+app.get('/blockchain/txn/:token/:time/:from/:limit/:criteria') //json format
+		++app.get('/blockchain/contract/:token/:time/:from/:limit/:criteria') //json format
+		app.get('/blockchain/:token/:time/:from/:limit/:criteria') //json format
+
+		app.get('/blockchain/freesearch/:token/:time/:from/:limit/:criteria') //json format
+		app.get('/blockchain/regexsearch/:token/:time/:from/:limit/:criteria') //json format
+		*/
 
 		this.server = app.listen(port, () => console.log(`new session on ${port} ...`))
 	}
@@ -26,22 +45,21 @@ class Session{
 	}
 
 	checkAccess(token, key, res){
-		if (this.timedOut(token)){
+		/*if (this.timedOut(token)){
 			res.json({ status: 'timedout'})
 			close()
  		}
-		else
+		else*/
 			this.mgr.checkAccess(key, (exists) => res.json( {exists: exists, status : 'ok'}))
 	}
 
 	close(){
 		if (this.server != null){
-			this.mgr.close()
+			//this.mgr.close()
 			this.server.close()
 
-			console.log(this.server + '... closing')
+			console.log(this.token + '... closing')
 
-			this.server = null
 		}
 		return { close : 0 }
 	}

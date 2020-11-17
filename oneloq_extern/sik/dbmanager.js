@@ -26,14 +26,18 @@ class DBManager extends SQLManager{
 	addKey(k, handle){
 		let keyQuery = `insert into key(owner,start, end, type, data, active) values('${k.owner}', '${k.start}', '${k.end}', '${k.type}', '${k.data}', false)`
 
+		k.time = new Date().getTime()
 		let contract = k.contract
 		let sender = k.owner
 		let recipient = k.recipient
 		let requester = k.requester
-		let data = 'key-create'
-		let txnQuery = `insert into txn(time, contract, sender, requester,recipient, data) values(DATETIME(), '${contract}', '${sender}','${requester}', '${recipient}','${data}' )`
+		let data = 'key-add'
 
-		this.transaction([keyQuery,txnQuery] , handle)
+		let txnQuery = `insert into txn(time, contract, sender, requester,recipient, data) values(${k.time}, '${contract}', '${sender}','${requester}', '${recipient}','${data}' )`
+
+		this.transaction([keyQuery,txnQuery] , () => {
+			handle(k)
+		} )
 	}
 }
 

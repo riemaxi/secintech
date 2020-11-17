@@ -1,0 +1,6 @@
+{
+ "sikhost" : "localhost",
+ "sikport" : "5000",
+ "sikuser" : "u",
+ "sikpassword" : "p"
+}
