@@ -1,6 +1,7 @@
 {
 	"dbpath" : "./db/data.db",
 	"blockchainDB" : "./db/blockchain.db",
+	"blockCapacity" : "4",
 	"blockchainHashSize" : "256",
 	"port" : 5000
 }

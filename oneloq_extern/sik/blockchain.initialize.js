@@ -17,7 +17,7 @@ class DBInitializer extends SQLManager{
 
 		this.createTable(
 			'item',
-			'time bigint,block int, int type, contract varchar(256), sender varchar(256), requester varchar(256), recipient varchar(256),  data text'
+			'time bigint,block int, type int, contract varchar(256), sender varchar(256), requester varchar(256), recipient varchar(256),  data text'
 		)
 
 		this.populate()

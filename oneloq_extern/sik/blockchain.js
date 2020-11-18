@@ -1,4 +1,3 @@
-let SQLManager = require('./sqlmanager')
 let crypto = require('crypto')
 
 class Blockchain{
@@ -7,22 +6,31 @@ class Blockchain{
 		this.blockCapacity
 	}
 
-	hash256(data){
+	initialize(hash){
+		this.sql.insert('block','hash',`'${hash}'`)
+	}
+
+	sha256(data){
 		return crypto.createHash('sha256').update(data).digest('base64')
 	}
 
 	blockHash(block, handle){
 		var data = ''
 		this.sql.collectionToClosure(`select data from item where block = ${block}`,
-			(item) => data += item.data,() => handle(this.sha256(data) ) )
+			(item) => data += item.data,() => handle(this.sha256(data) ),
+			()=>{} )
 	}
 
-	addItem(block,type, item, handle){
+	addItem(block,type, contract, sender, requester, recipient, data, handle){
 		console.log('add item')
+
+		let time = new Date().getTime()
+
 	 	this.sql.insert(
 			'item',
-			'block,data',
-			`${block}, '${item}'`, (error) => {
+			'time, block, type, contract, sender, requester, recipient, data',
+			`${time}, ${block}, ${type}, '${contract}', '${sender}','${requester}','${recipient}', '${data}'`, (error) => {
+				console.log('addItem: ' + error)
 				this.blockHash(block, (hash) => {
 					console.log('new block hash: ' + hash)
 					this.sql.exec(`update block set hash = '${hash}' where rowid = ${block}`, handle('item added'))

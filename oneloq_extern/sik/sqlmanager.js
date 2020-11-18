@@ -28,7 +28,7 @@ class SQLManager{
 	}
 
 	insert(name, fields, item, handle){
-		console.log(`insert into ${name}` )
+		console.log(`insert into ${name}(${fields}) values(${item})`)
 		this.db.exec(`insert into ${name}(${fields}) values(${item})`, handle )
 
 

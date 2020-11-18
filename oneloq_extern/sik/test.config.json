@@ -1,4 +1,7 @@
 {
-"dbpath" : "./db/test.data.db",
-"port" : 20000
+	"dbpath" : "./db/test.data.db",
+	"port" : 20000,
+	"blockchainDB" : "./db/test.blockchain.db",
+	"blockchainHashSize" :"50",
+	"blockCapacity" : "3"
 }
