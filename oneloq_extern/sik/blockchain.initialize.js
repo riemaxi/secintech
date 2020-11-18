@@ -25,7 +25,8 @@ class DBInitializer extends SQLManager{
 	}
 
 	populate(){
-		let bc = new Blockchain(this.dbpath)
+		new Blockchain(this, config.blockchainCapacity).initialize('0123456789ABCDEF')
+
 	}
 }
 

@@ -3,7 +3,7 @@ let crypto = require('crypto')
 class Blockchain{
 	constructor(sql, blockCapacity){
 		this.sql = sql
-		this.blockCapacity
+		this.blockCapacity = blockCapacity
 	}
 
 	initialize(hash){
@@ -55,7 +55,7 @@ class Blockchain{
 	}
 
 	collection(handle){
-		this.sql.collection('select * from item', handle)
+		this.sql.collection('select * from item', handle, ()=>{})
 	}
 
 	checkConsistency(handle){
@@ -66,6 +66,7 @@ class Blockchain{
 			this.sql.collection(`select count(*) size from item where block = ${blockitem.id}`, (item) => {
 				if (item.size < this.blockCapacity)
 					this.addItem(blockitem.id, type, contract, sender, requester, recipient, data , handle)
+
 				else
 					this.addBlockAndItem(blockitem.id, type, contract, sender, requester, recipient, data, handle)
 			})

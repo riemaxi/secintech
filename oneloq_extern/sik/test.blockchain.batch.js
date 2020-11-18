@@ -6,6 +6,7 @@ const SQLManager = require('./sqlmanager')
 let bc = new Blockchain(new SQLManager(config.blockchainDB), config.blockCapacity)
 
 function doMining(){
+	console.log('mining ...')
 
 	let item = {
 		signed : new Date().getTime(),
@@ -22,7 +23,6 @@ function doMining(){
 
 
 	bc.mine(
-		//1,
 		constant.contract_type,
 		'txt contract - ' + new Date().getTime(),
 		'sender ' + new Date().getTime(),
@@ -31,6 +31,7 @@ function doMining(){
 		JSON.stringify(item),
 		(msg) => console.log(msg))
 
+	setTimeout(doMining, 2000)
 }
 
-doMining()
+setTimeout(doMining, 2000)
