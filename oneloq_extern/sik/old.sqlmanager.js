@@ -34,8 +34,9 @@ class SQLManager{
 
 	}
 
-	exec(query, handle){
-		this.db.exec(query, handle)
+	_transaction(queries, handle){
+		this.db.exec(	'BEGIN;' + queries.join(';') ,
+				(error) => this.db.exec(error?'ROLLBACK;':'COMMIT;'))
 	}
 
 	transaction(queries, handle){
@@ -46,21 +47,6 @@ class SQLManager{
 				if (error) this.db.exec('ROLLBACK;')
 				handle(error)
 			} )
-	}
-
-	collectionToClosure(query, collect, end, empty){
-		this.db.all(query, (error, rows) => {
-			if (error)
-				console.log(error)
-			else{
-				if (rows.length > 0){
-					rows.forEach( collect )
-					end()
-				}
-				else
-					empty()
-			}
-		})
 	}
 
 	collection(query, collect, empty){

@@ -16,9 +16,9 @@ class DBManager extends SQLManager{
 
 			let start = Date.parse(item.start)
 			let end = Date.parse(item.end)
-			handle(start <= k.time && k.time <= end)
+			handle(start <= k.time && k.time <= end, {})
 
-		}, () => handle(false) )
+		}, () => handle(false, {}) )
 
 		//save in txn table
 	}

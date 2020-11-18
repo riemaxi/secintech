@@ -3,7 +3,7 @@ const Manager = require('./manager')
 
 class Session{
 	constructor(port, dbpath){
-		this.timeout = 10  //seconds
+		this.timeout = 3600  //seconds
 		this.token = new Date().getTime()
 
 		this.mgr = new Manager(dbpath)
@@ -45,11 +45,11 @@ class Session{
 	}
 
 	checkAccess(token, key, res){
-		/*if (this.timedOut(token)){
+		if (this.timedOut(token)){
 			res.json({ status: 'timedout'})
 			close()
  		}
-		else*/
+		else
 			this.mgr.checkAccess(key, (exists) => res.json( {exists: exists, status : 'ok'}))
 	}
 

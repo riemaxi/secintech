@@ -1,4 +1,5 @@
 const config = require('./config.json')
+const constant = require('./constant.json')
 const SQLManager = require('./sqlmanager')
 
 class DBInitializer extends SQLManager{
@@ -15,11 +16,11 @@ class DBInitializer extends SQLManager{
 
 		this.createTable(
 			'key',
-			'owner varchar(256), start varchar(21), end varchar(21), type bigint, data text, active boolean')
+			'owner varchar(256), start unsigned big int, end unsigned big int, type bigint, data text, status int')
 
 		this.createCleanTable(
 			'contract',
-			'id varchar(256) primary key,signed varchar(21), start varchar(21), end varchar(21),   parta varchar(256), partb varchar(256), type varchar(256), price varchar(256), parameters text, procedure text'
+			'id varchar(256) primary key,signed unsigned big int, start unsigned big int, end unsigned big int,   parta varchar(256), partb varchar(256), type varchar(256), price varchar(256), parameters text, procedure text'
 		)
 
 		this.createTable(
@@ -43,16 +44,19 @@ class DBInitializer extends SQLManager{
 	}
 
 	populateKeys(){
-		this.insert('key','owner, start, end, type, data, active',"'202011178891AAF','2020-11-01T00:00:00','2021-11-01T00:00:00', 0,'AAAAXXXFF', true")
+		let start = new Date('2020-01-01T00:00:00').getTime()
+		let end = new Date('2026-01-01T00:00:00').getTime()
+
+		this.insert('key','owner, start, end, type, data, status',`'202011178891AAF',${start},${end}, 0,'AAAAXXXFF', ${constant.key_inactive}`)
 		this.collection('select * from key', (item) => 	console.log(item) )
 	}
 
 	populateContracts(){
 		let fields = 'id, signed, start, end,parta,partb,type,price, parameters, procedure'
 
-		let signed = '2020-01-01T00:00:00'
-		let start = '2020-01-01T00:00:00'
-		let end = '2025-01-01T00:00:00'
+		let signed = new Date('2020-01-01T00:00:00').getTime()
+		let start = new Date('2020-01-01T00:00:00').getTime()
+		let end = new Date('2025-01-01T00:00:00').getTime()
 		let parta = 'AAAAAAAAA'
 		let partb = 'BBBBBBBBB'
 		let price = '1:10-12:euro' //1 loqoin = 0.000 000 000 000 1 euros
@@ -61,13 +65,13 @@ class DBInitializer extends SQLManager{
 		var type = 'contract'
 		var parameters = 'fields'
 		var procedure = 'sql : insert into contract'
-		this.insert('contract',	fields,`'${id}','${signed}', '${start}', '${end}', '${parta}','${partb}', '${type}','${price}','${parameters}', '${procedure}'`)
+		this.insert('contract',	fields,`'${id}',${signed}, ${start}, ${end}, '${parta}','${partb}', '${type}','${price}','${parameters}', '${procedure}'`)
 
 		id = 'key-0000'
 		type = 'key'
 		parameters = 'fields'
 		procedure = 'sql : insert into key'
-		this.insert('contract',	fields,`'${id}','${signed}', '${start}', '${end}', '${parta}',  '${partb}', '${type}',  '${price}', '${parameters}', '${procedure}'`)
+		this.insert('contract',	fields,`'${id}',${signed}, ${start}, ${end}, '${parta}',  '${partb}', '${type}',  '${price}', '${parameters}', '${procedure}'`)
 
 		this.collection('select * from contract', (item) => 	console.log(item) )
 

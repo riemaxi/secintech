@@ -12,13 +12,15 @@ class Manager{
 	}
 
 	checkAccess(key, handle){
-		this.db.checkAccess(key, (txnRecord) => {
-			this.mmgr.mineKeyOp('key-use', txnRecord, handle)
+		this.db.checkAccess(key, (exist, txnRecord) => {
+			handle(exist)
+			this.mmgr.mineKeyOp('key-use', txnRecord, ()=>{})
 		})
 	}
 
 	addKey(key, handle){
-		this.db.addKey(key, (txnRecord) => {
+		this.db.addKey(key, (res, txnRecord) => {
+			handle(res)
 			this.mmgr.mineKeyOp('key-add', txnRecord, handle)
 		})
 	}
@@ -30,8 +32,9 @@ class Manager{
 	}
 
 	updateContract(contract, handle){
-		this.db.updateContract(contract, (res) => {
-			this.mmgr.mineContractOp(contract, handle)
+		this.db.updateContract(contract, (res, txnRecord) => {
+			handle(res)
+			this.mmgr.mineContractOp(contract, txnRecord, handle)
 		})
 	}
 

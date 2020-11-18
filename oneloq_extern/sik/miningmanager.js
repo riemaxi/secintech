@@ -19,12 +19,16 @@ class MiningManager{
 		}).end()
 	}
 
-	mineKeyOp(){
+	mineKeyOp(opname, data, handle){
 		//request(`/mine/`)
+		handle()
 	}
 
-	mineContractOp(){
+	mineContractOp(opname, data, handle){
 		//mine con
 	}
 
 }
+
+
+module.exports = MiningManager
