@@ -20,8 +20,7 @@ let item = {
 	procedure : 'sql : insert into contract'
 }
 
-bc.addItem(
-	1,
+bc.mine(
 	constant.contract_type,
 	'txt contract - 000',
 	'sender 0000',

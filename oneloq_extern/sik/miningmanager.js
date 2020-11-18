@@ -1,7 +1,9 @@
 const http = require('http')
+const Blockchain = require('./blockchain')
 
 class MiningManager{
 	constructor(dbpath){
+		this.bc = new Blockchain(new M)
 	}
 
 	request(path, port, handle){
@@ -20,7 +22,8 @@ class MiningManager{
 	}
 
 	mineKeyOp(opname, data, handle){
-		//request(`/mine/`)
+		this.bc.mine(type, contract, sender, requester, recipient, data, () => {})
+		//challenge the miners request(`/mine/`)
 		handle()
 	}
 

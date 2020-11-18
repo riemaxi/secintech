@@ -1,5 +1,6 @@
 const DBManager = require('./dbmanager')
 const MiningManager = require('./miningmanager')
+const config = require('./config.json')
 
 // major types of operations: contract, key
 // minor key op types : key-add, key-confirm, key-use, key-update(copy to new, deactivate)
@@ -8,7 +9,7 @@ const MiningManager = require('./miningmanager')
 class Manager{
 	constructor(dbpath){
 		this.db = new DBManager(dbpath)
-		this.mmgr = new MiningManager(dbpath)
+		this.mmgr = new MiningManager(this.db, config.blockchainCapacity)
 	}
 
 	checkAccess(key, handle){
