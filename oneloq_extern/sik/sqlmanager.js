@@ -54,7 +54,7 @@ class SQLManager{
 				console.log(error)
 			else{
 				if (rows.length > 0){
-					rows.forEach( collect )
+					rows.forEach(collect)
 					end()
 				}
 				else

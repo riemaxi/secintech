@@ -63,7 +63,17 @@ class Blockchain{
 		this.sql.collectionToClosure(`select * from item order by rowid desc limit ${limit}`, handle, end, empty)
 	}
 
+	lastHash(handle){
+		this.sql.collection('select max(rowid), hash from block', (item) => handle(item.hash))
+	}
+
 	checkConsistency(handle){
+		this.sql.collection('select rowid as id, hash from block order by id',
+			(item) => {
+				this.blockHash( item.id, (calchash) => {
+					handle(item.id, item.hash == calchash)
+				})
+		})
 	}
 
 	mine(type, contract, sender, requester, recipient, data , handle){
