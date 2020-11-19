@@ -54,8 +54,13 @@ class Blockchain{
 
 	}
 
-	collection(handle){
-		this.sql.collection('select * from item', handle, ()=>{})
+	collection(limit, handle){
+		this.sql.collection(`select * from item order by rowid desc limit ${limit}`, handle, ()=>{})
+	}
+
+
+	collectionToClosure(limit, handle, end, empty){
+		this.sql.collectionToClosure(`select * from item order by rowid desc limit ${limit}`, handle, end, empty)
 	}
 
 	checkConsistency(handle){

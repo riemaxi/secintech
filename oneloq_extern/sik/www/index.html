@@ -1,0 +1,52 @@
+<html>
+
+<script src="/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+ <link rel="stylesheet" type="text/css" href="style.css" />
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+   <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+	var table = undefined
+
+	function fetch(){
+		$.ajax({url: "data", success: function(data){
+
+			if (table)
+				table.destroy()
+
+		       table = $("#dataview").DataTable(
+		                {                                                                                                                                                    "paging":   false,
+		                    "ordering": true,
+		                    "info":     false,
+		                    "searching": false,
+
+		                    columns: [{title: "time"}, {title: "contract"}, {title: "sender"},{title:"recipient"}],
+					data: data.tail
+		                }
+		            )
+
+
+		  }});
+
+	}
+
+	function refresh(){
+
+		fetch()
+		setInterval(refresh, 2000)
+	}
+
+
+  $(function () {
+	fetch()
+	setInterval( refresh, 2000)
+  });
+</script>
+
+ <body>
+   <table id="dataview" class="display"></table>
+ </body>
+</html>

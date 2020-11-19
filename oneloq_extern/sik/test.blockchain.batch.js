@@ -34,4 +34,4 @@ function doMining(){
 	setTimeout(doMining, 2000)
 }
 
-setTimeout(doMining, 2000)
+setTimeout(doMining, 4000)
