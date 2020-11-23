@@ -1,0 +1,6 @@
+{
+	"dbpath" : ":memory:",
+	"port" : "5500",
+	"superuser": "u",
+	"superpassword" : "p"
+}
