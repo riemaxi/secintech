@@ -1,0 +1,5 @@
+{
+	"port" : 3000,
+	"dbService" : "localhost:3500",
+	"sikService" : { "host" : "localhost", "port" : "5000" }
+}

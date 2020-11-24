@@ -2,5 +2,5 @@
 	"port" : 5000,
 	"superuser": "u",
 	"superpassword": "p",
-	"dbpath" : ":memory:"
+	"db" : {"host" : "localhost", "port": 5500}
 }
