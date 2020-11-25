@@ -1,13 +1,25 @@
 let crypto = require('crypto')
 
 class Blockchain{
-	constructor(sql, blockCapacity){
+	constructor(sql, config){
 		this.sql = sql
-		this.blockCapacity = blockCapacity
+		this.capacity = config.capacity
+		this.hashSize = config.hashSize
+		this.initialize()
 	}
 
-	initialize(hash){
-		this.sql.insert('block','hash',`'${hash}'`)
+	initialize(){
+	    this.sql.dropTables(['block','item'])
+
+	   this.sql.createTable(
+		'block',
+		`hash varchar(${this.hashSize})`)
+
+	    this.sql.createTable(
+		'item',
+		'time bigint,block int, type int, contract varchar(256), sender varchar(256), requester varchar(256), recipient varchar(256),  data text')
+
+            this.sql.insert('block','hash',"''")
 	}
 
 	sha256(data){
@@ -79,7 +91,7 @@ class Blockchain{
 	mine(type, contract, sender, requester, recipient, data , handle){
 		this.sql.collection('select max(rowid) id from block', (blockitem) => {
 			this.sql.collection(`select count(*) size from item where block = ${blockitem.id}`, (item) => {
-				if (item.size < this.blockCapacity)
+				if (item.size < this.capacity)
 					this.addItem(blockitem.id, type, contract, sender, requester, recipient, data , handle)
 
 				else

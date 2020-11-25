@@ -2,5 +2,8 @@
 	"port" : 5000,
 	"superuser": "u",
 	"superpassword": "p",
+
+	"session" : { "duration" : 100000} ,
+
 	"db" : {"host" : "localhost", "port": 5500}
 }

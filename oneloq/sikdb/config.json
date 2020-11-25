@@ -3,5 +3,6 @@
 	"port" : "5500",
 	"superuser": "u",
 	"superpassword" : "p",
-	"blockchainCapacity" : 20
+
+	"blockchain" : { "capacity" : 20, "hashSize" : 50}
 }

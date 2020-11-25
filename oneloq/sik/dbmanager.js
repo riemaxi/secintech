@@ -1,12 +1,12 @@
 let http = require('http')
 
 class DBManager{
-	constructor(host, port){
-		this.host = host
-		this.port = port
+	constructor(config){
+		this.host = config.host
+		this.port = config.port
 	}
 
-	request(path, handle){
+	urlRequest(path, handle){
 		var result = ''
 		let option = {
 			host: this.host,
@@ -21,15 +21,24 @@ class DBManager{
 		}).end()
 	}
 
-
-	data(params, res){
-		//transacciones
-		this.request('/transaction/list', (data) => res.json(data))
+	createToken(data){
+		return data.response == true? new Date().getTime() : 0
 	}
 
-	db.checkAccess(params, res){
-		this.request(`/key/lookup/${params.user}/${params.password}`, (data) => res.json(data))
+	login(params, handle){
+		this.urlRequest(`/access/lookup/${params.user}/${params.password}`, (data) => handle( this.createToken(JSON.parse(data)) ))
 	}
+
+
+	checkAccess(params, res){
+		this.urlRequest(`/key/lookup/${params.owner}/${params.time}/${params.type}/${params.data}`, (data) => res.json(data) )
+	}
+
+
+	transactions(params, res){
+		this.urlRequest('/transaction/list', (data) => res.json(data))
+	}
+
 
 	addKey(params, res){
 	}

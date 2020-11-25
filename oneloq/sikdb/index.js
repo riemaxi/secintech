@@ -1,16 +1,12 @@
 const app = require('express')()
-const config = require('./config.json')
 const DBManager = require('./dbmanager')
-const SQLManager = require('../common/sqlmanager')
-let port = config.port
+const config = require('./config.json')
+console.log(config)
 
-let sql = new DBManager(config.dbpath, config.blockchainCapacity)
+let db = new DBManager(config)
 
-function lookupUser(user, password, res){
-	let query  = `select count(*) size from access where user = '${user}' and password = '${password}'`
-	sql.collection( query, (item) => res.json({ response: item.size > 0 }) )
-}
+app.get ('/access/lookup/:user/:password', (req, res) =>  db.accessLookup(req.params, res) )
+app.get('/key/lookup/:owner/:time/:type/:data', (req, res) => db.keyLookup(req.params, res) )
 
-app.listen(port, (err) => console.log(`Sik db on port ${port} ...`))
+app.listen(config.port, (err) => console.log(`Sik db on port ${config.port} ...`))
 
-app.get ('/lookup/user/:user/:password', (req, res) =>  lookupUser(req.params.user, req.params.password, res) )

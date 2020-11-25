@@ -1,16 +1,29 @@
-const config = require('./config.json')
 const SQLManager = require('../common/sqlmanager')
 const Blockchain = require('./blockchain')
 const constant = require('./constant')
 
 class DBManager extends SQLManager{
-  constructor(dbpath){
-    super(dbpath)
+  constructor(config){
+    super(config.dbpath)
 
-    this.bc = new Blockchain(this)
+    this.superuser = config.superuser
+    this.superpassword = config.superpassword
+
+    this.bc = new Blockchain(this, config.blockchain)
+
+    this.initializeData()
   }
 
-  initialize(){
+  populateUsers(){
+     console.log('popUser:' + this.superuser)
+    this.insert('access','user, password',`'${this.superuser}','${this.superpassword}'`)
+
+    this.collection('select * from access', (item) => {
+      console.log(item)
+    })
+  }
+
+  initializeData(){
     this.dropTables(['key','access','contract'])
 
     this.createTable(
@@ -27,30 +40,25 @@ class DBManager extends SQLManager{
     )
 
     this.populateUsers()
-    this.populateKeys()
   }
 
-  populateUsers(){
-    this.insert('access','user, password',`'${config.superuser}','${config.superpassword}'`)
+	accessLookup(params, res){
+		let user = params.user
+		let password = params.password
+		let query  = `select count(*) size from access where user = '${user}' and password = '${password}'`
+		this.collection( query, (item) => res.json({ response: item.size > 0 }) )
+	}
 
-    this.collection('select * from access', (item) => {
-      console.log(item)
-    })
-  }
+	keyLookup(params, res){
+		let owner = params.ower
+		let type = params.type
+		let data = params.data
+		let time = params.time
+		let active = constant.key.status.active
+		let query = `select count(*) size from key where ${time} between start and end and owner = '${owner}' and type = ${type} and data = '${data} and status = ${active}'`
+		this.collection(query, (item) => res.json({ response: item.size > 0 }) )
+	}
 
-  populateKeys(){
-    for(var i =0; i<20; i++){
-	let owner = 'owner ' + i
-	let start = new Date('2020-01-01T00:00:00').getTime()
-	let end = new Date('2025-01-01T00:00:00').getTime()
-	let type = i % 4
-	let data = 'data ' + i
-	let status = constant.key.status.inactive
-    	this.insert('key','owner,start, end, type, data, status',`'${owner}', ${start}, ${end}, ${type}, '${data}', ${status}`)
-    }
-
-    this.collection('select * from key', (item) => console.log(item))
-  }
 }
 
 module.exports = DBManager
