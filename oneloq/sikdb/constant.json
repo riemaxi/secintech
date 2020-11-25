@@ -1,0 +1,9 @@
+{
+	"key" : {
+		"status" : {
+			"inactive" : 0,
+			"active": 1,
+			"deactivated" : -1
+		}
+	}
+}

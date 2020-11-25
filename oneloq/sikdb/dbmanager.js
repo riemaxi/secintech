@@ -1,10 +1,13 @@
 const config = require('./config.json')
 const SQLManager = require('../common/sqlmanager')
 const Blockchain = require('./blockchain')
+const constant = require('./constant')
 
 class DBManager extends SQLManager{
   constructor(dbpath){
     super(dbpath)
+
+    this.bc = new Blockchain(this)
   }
 
   initialize(){
@@ -42,7 +45,7 @@ class DBManager extends SQLManager{
 	let end = new Date('2025-01-01T00:00:00').getTime()
 	let type = i % 4
 	let data = 'data ' + i
-	let status = i % 5
+	let status = constant.key.status.inactive
     	this.insert('key','owner,start, end, type, data, status',`'${owner}', ${start}, ${end}, ${type}, '${data}', ${status}`)
     }
 

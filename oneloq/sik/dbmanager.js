@@ -23,22 +23,24 @@ class DBManager{
 
 
 	data(params, res){
-		this.request('/data', (response) => res.json(response))
+		//transacciones
+		this.request('/transaction/list', (data) => res.json(data))
 	}
 
-	db.checkAccess(req.params, res){
+	db.checkAccess(params, res){
+		this.request(`/key/lookup/${params.user}/${params.password}`, (data) => res.json(data))
 	}
 
-	addKey(req.params, res){
+	addKey(params, res){
 	}
 
-	updateKey(req.params, res){
+	updateKey(params, res){
 	}
 
-	confirmKey(req.params, res){
+	confirmKey(params, res){
 	}
 
-	deactivateKey(req.params, res){
+	deactivateKey(params, res){
 	}
 }
 

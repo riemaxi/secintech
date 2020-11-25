@@ -4,7 +4,7 @@ const DBManager = require('./dbmanager')
 const SQLManager = require('../common/sqlmanager')
 let port = config.port
 
-let sql = new DBManager(config.dbpath)
+let sql = new DBManager(config.dbpath, config.blockchainCapacity)
 
 function lookupUser(user, password, res){
 	let query  = `select count(*) size from access where user = '${user}' and password = '${password}'`
