@@ -20,7 +20,7 @@
 		"type" : {
 			"KEYADD" : 0,
 			"KEYLOOKUP" : 1,
-			"KEYUPDATE" : 2
+			"KEYDEACTIVATE" : 2
 		}
 	}
 }

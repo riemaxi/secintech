@@ -1,6 +1,6 @@
 const SQLManager = require('../common/sqlmanager')
 const Blockchain = require('./blockchain')
-const constant = require('./constant')
+const constant = require('./constant.json')
 
 class DBManager extends SQLManager{
   constructor(config){
@@ -42,6 +42,10 @@ class DBManager extends SQLManager{
     this.populateUsers()
   }
 
+   reset(res){
+	this.transaction(['delete from block','delete from item'], (result) => res.json(result))
+  }
+
 	accessLookup(params, res){
 		let user = params.user
 		let password = params.password
@@ -55,7 +59,7 @@ class DBManager extends SQLManager{
 		let end = params.end
 		let type = params.type
 		let data = params.data
-		let status = constant.key.status.inactive
+		let status = constant.key.status.INACTIVE
 
 		this.insert('key','owner,start,end,type,data,status',`'${owner}',${start},${end},${type},'${data}',${status}`,
 			(err)=>{
@@ -63,12 +67,38 @@ class DBManager extends SQLManager{
 					constant.tx.type.KEYADD,
 					params,
 					`${owner}|${start}|${end}|${type}|${data}|${status}`,
-					() => res.json({ response: 'ok'})
+					() => res.json({ response: constant.key.response.status.OK})
 				)
 			})
 	}
 
-	keyDeactivate(params, res){
+	keyUpdateStatus(params, res){
+		let owner = params.owner
+		let deactivated = constant.key.status.DEACTIVATED
+		console.log(`keyUpdateStatus: select * from key where owner = '${owner}' and status <> ${deactivated}`)
+
+		this.collectionToClosure(`select * from key where owner = '${owner}' and status <> ${deactivated}`, (item) => {
+
+			let status = params.value
+			console.log(`update key set status = ${status} where owner = '${owner}' and status <> ${deactivated}'`)
+			this.exec(`update key set status = ${status} where owner = '${owner}' and status <> ${deactivated}'`,
+				(err)=>{
+					let start = item.start
+					let end = item.end
+					let type = item.type
+					let data = item.data
+
+					this.mine(
+						constant.tx.type.KEYUPDATE,
+						params,
+						`${owner}|${start}|${end}|${type}|${data}|${status}`,
+						() => res.json({ response: constant.key.response.status.OK})
+					)
+				})
+		},
+		() => {},
+	        ()=> res.json({ response: constant.key.response.status.NOTFOUND} ) )
+
 	}
 
 	keyLookup(params, res){
@@ -76,7 +106,7 @@ class DBManager extends SQLManager{
 		let type = params.type
 		let data = params.data
 		let time = params.time
-		let active = constant.key.status.active
+		let active = constant.key.status.ACTIVE
 		let query = `select count(*) size from key where ${time} between start and end and owner = '${owner}' and type = ${type} and data = '${data} and status = ${active}'`
 		this.collection(query, (item) => {
 			this.mine(
@@ -90,12 +120,16 @@ class DBManager extends SQLManager{
 	}
 
 	transactions(params, res){
-		let data = []
+		//'time,block,type, contract, sender, requester, recipient,  data text')
+		let data = {
+			head : [{title:'Time'}, {title:'Type'}, {title:'Sender'}, {title:'Requester'}, {title:'Recipient'}, {title: 'Key/Contract Data'}],
+			tail : []
+		}
 		this.bc.collectionToClosure(
 			params.limit,
-			(item) => data.push(item),
+			(item) => data.tail.push([item.time, item.type, item.sender, item.requester, item.recipient,item.data]),
 			()=> res.json(data),
-			()=> res.json([]))
+			()=> res.json(data))
 	}
 
 	mine(txType, params, data, handle){

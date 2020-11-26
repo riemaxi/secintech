@@ -34,12 +34,34 @@ function checkaccess(params, res){
 }
 
 function addkey(params, res){
+	let owner = new Date().getTime()
 	let host = 'localhost'
-	let path = `/addkey/${token}/10/1200/23000/23/more/2/5/6/7`
+	let path = `/addkey/${token}/${owner}/1200/23000/23/more/2/5/6/7`
 	let port = 5000
 	console.log(path)
 	request(host, path, port,(data) => res.json(data) )
 }
+
+function deactivateKey(params, res){
+	let owner = params.owner
+
+	let host = 'localhost'
+	let path = `/deactivatekey/${token}/${owner}/2/5/6/7`
+	let port = 5000
+	console.log(path)
+	request(host, path, port,(data) => res.json(data) )
+}
+
+function confirmKey(params, res){
+	let owner = params.owner
+
+	let host = 'localhost'
+	let path = `/confirmkey/${token}/${owner}/2/5/6/7`
+	let port = 5000
+	console.log(path)
+	request(host, path, port,(data) => res.json(data) )
+}
+
 
 function transactions(params, res){
 	let host = 'localhost'
@@ -64,6 +86,8 @@ function login(params, res){
 app.get('/login', (req, res) => login(req.params, res))
 app.get('/checkaccess', (req, res) => checkaccess(req.params, res))
 app.get('/addkey', (req, res) => addkey(req.params, res))
+app.get('/confirmkey/:owner', (req, res) => confirmKey(req.params, res))
+app.get('/deactivatekey/:owner', (req, res) => deactivateKey(req.params, res))
 app.get('/transactions', (req, res) => transactions(req.params, res) )
 
 app.listen(config.port, () => console.log(`OLConsole on ${config.port}`) )

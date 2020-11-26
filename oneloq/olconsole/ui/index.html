@@ -48,6 +48,21 @@
 			}})
 		}
 
+		function deactivatekey(){
+			let owner = $('#deactivate').val()
+			$.ajax({url: `deactivatekey/${owner}`, success: function(data){
+				fetch()
+			}})
+		}
+
+		function confirmkey(){
+			let owner = $('#confirm').val()
+			console.log(owner)
+			$.ajax({url: `confirmkey/${owner}`, success: function(data){
+				fetch()
+			}})
+		}
+
 		function checkaccess(){
 			$.ajax({url: "checkaccess", success: function(data){
 				fetch()
@@ -58,13 +73,13 @@
 			console.log('request login ...')
 			$.ajax({url: "login", success: function(data){
 				token = data
-				$("#message").text(token)
+				$("#message").text(token>0?'Welcome to OLC:SIK Demo' : 'OOOOPS')
+				fetch()
 			}})
 		}
 
 	  $(function () {
 		login()
-		//fetch()
 		//setInterval( refresh, 2000)
 	  });
 	</script>
@@ -72,8 +87,18 @@
  	<body>
 		<label id="message"></label>
 		<div>
-			<button onclick='addkey()'>Add key</button>
-			<button onclick='checkaccess()'>Check access</button>
+			<button onclick='addkey()'>Add key</button><br>
+			<button onclick='checkaccess()'>Check access</button><br>
+			<div>
+				<button onclick='deactivatekey()'>Deactivate key</button>
+				<input type='text' id='deactivate'>
+			<div>
+
+			<div>
+				<button onclick='confirmkey()'>Confirm key</button>
+				<input type='text' id='confirm'>
+			<div>
+
 			<div>
 				<h2>Transactions</h2>
 				<table id="dataview" class="display"></table>

@@ -1,4 +1,5 @@
 let http = require('http')
+let constant = require('./constant.json')
 
 class DBManager{
 	constructor(config){
@@ -44,13 +45,14 @@ class DBManager{
 		this.urlRequest(`/key/add/${params.owner}/${params.start}/${params.end}/${params.type}/${params.data}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data) )
 	}
 
-	updateKey(params, res){
-	}
-
 	confirmKey(params, res){
+		let active = constant.key.status.ACTIVE
+		this.urlRequest(`/key/update/status/${params.owner}/${active}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data))
 	}
 
 	deactivateKey(params, res){
+		let deactivated = constant.key.status.DEACTIVATED
+		this.urlRequest(`/key/update/status/${params.owner}/${deactivated}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data))
 	}
 }
 
