@@ -29,10 +29,14 @@ function transactions(params, res){
 	db.transactions(params, res)
 }
 
+function addKey(params, res){
+	db.addKey(params, res)
+}
+
 app.get('/login/:user/:password', (req, res) => login(req.params, res) )
 app.get('/checkaccess/:token/:time/:owner/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) =>  response(req.params.token, checkAccess, req.params, res) )
 app.get('/transactions/:token/:limit', (req, res) => response(req.params.token, transactions, req.params, res) )
-app.get('/addkey/:token/:time/:owner', (req, res) => db.addKey(req.params, res))
+app.get('/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, addKey, req.params, res) )
 app.get('/updatekey/:token/:time/:owner', (req, res) => db.updateKey(req.params, res)  )
 app.get('/confirmkey/:token/:time/:owner', (req, res) => db.confirmKey(req.params, res) )
 app.get('/deactivate/:token/:time/:owner', (req, res) => db.deactivateKey(req.params, res)  )

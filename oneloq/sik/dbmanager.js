@@ -41,6 +41,7 @@ class DBManager{
 
 
 	addKey(params, res){
+		this.urlRequest(`/key/add/${params.owner}/${params.start}/${params.end}/${params.type}/${params.data}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data) )
 	}
 
 	updateKey(params, res){

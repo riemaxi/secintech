@@ -50,10 +50,25 @@ class DBManager extends SQLManager{
 	}
 
 	keyAdd(params, res){
+		let owner = params.owner
+		let start = params.start
+		let end = params.end
+		let type = params.type
+		let data = params.data
+		let status = constant.key.status.inactive
+
+		this.insert('key','owner,start,end,type,data,status',`'${owner}',${start},${end},${type},'${data}',${status}`,
+			(err)=>{
+				this.mine(
+					constant.tx.type.KEYADD,
+					params,
+					`${owner}|${start}|${end}|${type}|${data}|${status}`,
+					() => res.json({ response: 'ok'})
+				)
+			})
 	}
 
 	keyDeactivate(params, res){
-
 	}
 
 	keyLookup(params, res){
