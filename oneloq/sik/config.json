@@ -3,7 +3,7 @@
 	"superuser": "u",
 	"superpassword": "p",
 
-	"session" : { "duration" : 100000} ,
+	"session" : { "duration" : 60000} ,
 
 	"db" : {"host" : "localhost", "port": 5500}
 }

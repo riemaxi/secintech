@@ -31,12 +31,12 @@ class DBManager{
 
 
 	checkAccess(params, res){
-		this.urlRequest(`/key/lookup/${params.owner}/${params.time}/${params.type}/${params.data}`, (data) => res.json(data) )
+		this.urlRequest(`/key/lookup/${params.owner}/${params.time}/${params.type}/${params.data}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data) )
 	}
 
 
 	transactions(params, res){
-		this.urlRequest('/transaction/list', (data) => res.json(data))
+		this.urlRequest(`/transaction/list/${params.limit}`, (data) => res.json(data))
 	}
 
 

@@ -48,7 +48,8 @@ class Blockchain{
 			`${time}, ${block}, ${type}, '${contract}', '${sender}','${requester}','${recipient}', '${data}'`, (error) => {
 				this.blockHash(block, (hash) => {
 					console.log('new block hash: ' + hash)
-					this.sql.exec(`update block set hash = '${hash}' where rowid = ${block}`, handle('item added'))
+					console.log(`update block set hash = '${hash}' where rowid = ${block}`)
+					this.sql.exec(`update block set hash = '${hash}' where rowid = ${block}`, (err) => handle(err))
 				})
 			})
 	}

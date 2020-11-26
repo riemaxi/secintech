@@ -49,14 +49,50 @@ class DBManager extends SQLManager{
 		this.collection( query, (item) => res.json({ response: item.size > 0 }) )
 	}
 
+	keyAdd(params, res){
+	}
+
+	keyDeactivate(params, res){
+
+	}
+
 	keyLookup(params, res){
-		let owner = params.ower
+		let owner = params.owner
 		let type = params.type
 		let data = params.data
 		let time = params.time
 		let active = constant.key.status.active
 		let query = `select count(*) size from key where ${time} between start and end and owner = '${owner}' and type = ${type} and data = '${data} and status = ${active}'`
-		this.collection(query, (item) => res.json({ response: item.size > 0 }) )
+		this.collection(query, (item) => {
+			this.mine(
+				constant.tx.type.KEYLOOKUP,
+				params,
+				`${owner}|${time}|${type}|${data}`,
+				()=> res.json({response: item.size > 0 })
+			)
+		})
+
+	}
+
+	transactions(params, res){
+		let data = []
+		this.bc.collectionToClosure(
+			params.limit,
+			(item) => data.push(item),
+			()=> res.json(data),
+			()=> res.json([]))
+	}
+
+	mine(txType, params, data, handle){
+		this.bc.mine(
+			txType,
+			params.txcontract,
+			params.txsender,
+			params.txrequester,
+			params.txrecipient,
+			data,
+			handle
+		)
 	}
 
 }

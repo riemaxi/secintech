@@ -30,8 +30,8 @@ function transactions(params, res){
 }
 
 app.get('/login/:user/:password', (req, res) => login(req.params, res) )
-app.get('/checkaccess/:token/:time/:owner/:type/:data', (req, res) =>  response(req.params.token, checkAccess, req.params, res) )
-app.get('/transactions/:token', (req, res) => response(req.params.token, transactions, req.params, res) )
+app.get('/checkaccess/:token/:time/:owner/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) =>  response(req.params.token, checkAccess, req.params, res) )
+app.get('/transactions/:token/:limit', (req, res) => response(req.params.token, transactions, req.params, res) )
 app.get('/addkey/:token/:time/:owner', (req, res) => db.addKey(req.params, res))
 app.get('/updatekey/:token/:time/:owner', (req, res) => db.updateKey(req.params, res)  )
 app.get('/confirmkey/:token/:time/:owner', (req, res) => db.confirmKey(req.params, res) )

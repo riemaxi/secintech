@@ -5,5 +5,13 @@
 			"active": 1,
 			"deactivated" : -1
 		}
+	},
+
+	"tx" : {
+		"type" : {
+			"KEYADD" : 0,
+			"KEYLOOKUP" : 1,
+			"KEYDEACTIVATE" : 2
+		}
 	}
 }
