@@ -1,0 +1,83 @@
+<html>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	 <link rel="stylesheet" type="text/css" href="css/style.css" />
+	   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+	   <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+	<script>
+		var token = 0
+
+		var table = undefined
+		var data = []
+
+		function fetch(){
+			$.ajax({url: "transactions", success: function(response){
+
+				data = JSON.parse(response)
+				console.log(typeof(data))
+
+				if (table)
+					table.destroy()
+
+			       table = $("#dataview").DataTable(
+			                {                                                                                                                                                    "paging":   false,
+			                    "ordering": true,
+			                    "info":     false,
+			                    "searching": false,
+
+			                    columns: JSON.parse(data).head,
+						data: JSON.parse(data).tail
+			                }
+			            )
+
+
+			  }});
+
+		}
+
+		function refresh(){
+
+			fetch()
+			setInterval(refresh, 2000)
+		}
+
+		function addkey(){
+			$.ajax({url: "addkey", success: function(data){
+				fetch()
+			}})
+		}
+
+		function checkaccess(){
+			$.ajax({url: "checkaccess", success: function(data){
+				fetch()
+			}})
+		}
+
+		function login(){
+			console.log('request login ...')
+			$.ajax({url: "login", success: function(data){
+				token = data
+				$("#message").text(token)
+			}})
+		}
+
+	  $(function () {
+		login()
+		//fetch()
+		//setInterval( refresh, 2000)
+	  });
+	</script>
+
+ 	<body>
+		<label id="message"></label>
+		<div>
+			<button onclick='addkey()'>Add key</button>
+			<button onclick='checkaccess()'>Check access</button>
+			<div>
+				<h2>Transactions</h2>
+				<table id="dataview" class="display"></table>
+			</div>
+		</div>
+	</body>
+</html>
