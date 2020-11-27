@@ -64,7 +64,12 @@
 		}
 
 		function checkaccess(){
-			$.ajax({url: "checkaccess", success: function(data){
+			let owner = $('#checkaccess').val()
+			$.ajax({url: `checkaccess/${owner}`, success: function(data){
+				let found = JSON.parse(JSON.parse(data)).response
+				//$('#checkaccessresult').text(found? 'found': 'not found')
+				$('#checkaccessresult').text(found)
+
 				fetch()
 			}})
 		}
@@ -88,7 +93,11 @@
 		<label id="message"></label>
 		<div>
 			<button onclick='addkey()'>Add key</button><br>
-			<button onclick='checkaccess()'>Check access</button><br>
+			<div>
+				<button onclick='checkaccess()'>Check access</button>
+				<input type='text' id='checkaccess'>
+				<label id='checkaccessresult'></label>
+			</div>
 			<div>
 				<button onclick='deactivatekey()'>Deactivate key</button>
 				<input type='text' id='deactivate'>
