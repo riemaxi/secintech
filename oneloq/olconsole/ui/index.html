@@ -15,7 +15,6 @@
 			$.ajax({url: "transactions", success: function(response){
 
 				data = JSON.parse(response)
-				console.log(typeof(data))
 
 				if (table)
 					table.destroy()
@@ -57,7 +56,6 @@
 
 		function confirmkey(){
 			let owner = $('#confirm').val()
-			console.log(owner)
 			$.ajax({url: `confirmkey/${owner}`, success: function(data){
 				fetch()
 			}})
@@ -67,8 +65,7 @@
 			let owner = $('#checkaccess').val()
 			$.ajax({url: `checkaccess/${owner}`, success: function(data){
 				let found = JSON.parse(JSON.parse(data)).response
-				//$('#checkaccessresult').text(found? 'found': 'not found')
-				$('#checkaccessresult').text(found)
+				$('#checkaccessresult').text(found? 'found': 'not found')
 
 				fetch()
 			}})

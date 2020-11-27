@@ -68,24 +68,28 @@ class DBManager extends SQLManager{
 		let deactivated = constant.key.status.DEACTIVATED
 		let status = params.value
 
-		var item = this.keys.find(e => e.owner == owner && e.status != deactivated)
-		if (item != null){
-			item.status = status
+		var item = this.keys.find(e => e.owner == owner)
 
-			let start = item.start
-			let end = item.end
-			let type = item.type
-			let data = item.data
+		var txType = status == constant.key.status.ACTIVE ? constant.tx.type.KEYUPDATECONFIRMED : constant.tx.type.KEYUPDATEDEACTIVATED
+		if (item == null || item.status == deactivated)
+			txType = constant.tx.type.KEYUPDATEDENIED
+		else
+			if (item.status != deactivated)
+				item.status = status
 
-			this.mine(
-				constant.tx.type.KEYUPDATE,
-				params,
-				`${owner}|${start}|${end}|${type}|${data}|${item.status}`,
-				() => res.json({ response: constant.key.response.status.OK})
-			)
-		}else
-			res.json({ response: constant.key.response.status.NOTFOUND})
+		let start = item!=null ? item.start : constant.EMPTY
+		let end = item!=null ? item.end : constant.EMPTY
+		let type = item!=null ? item.type : constant.EMPTY
+		let data = item != null ? item.data : constant.EMPTY
 
+
+
+		this.mine(
+			txType,
+			params,
+			`${owner}|${start}|${end}|${type}|${data}|${item.status}`,
+			() => res.json({ response: item != null ? constant.key.response.status.OK : constant.key.response.status.NOTFOUND})
+		)
 	}
 
 
@@ -95,20 +99,19 @@ class DBManager extends SQLManager{
 		let active = constant.key.status.ACTIVE
 
 		console.log(time, owner)
-		let item = this.keys.find(e => e.start <= time && time <= e.end && e.owner == owner && e.status == active)
-		console.log('found: ' , item)
+		let item = this.keys.find(e => e.owner == owner)
 
-		let type = item != null?item.type:'?'
-		let  data = item != null?item.data:'?'
-		let  status = item != null?item.status:'?'
-		let  start = item != null?item.start:'?'
-		let  end = item != null?item.end:'?'
+		let type = item != null?item.type:constant.EMPTY
+		let  data = item != null?item.data:constant.EMPTY
+		let  status = item != null?item.status:constant.EMPTY
+		let  start = item != null?item.start:constant.EMPTY
+		let  end = item != null?item.end:constant.EMPTY
 
 		this.mine(
-			constant.tx.type.KEYLOOKUP,
+			item != null ? constant.tx.type.KEYLOOKUPFOUND : constant.tx.type.KEYLOOKUPNOTFOUND,
 			params,
 			`${owner}|${start}|${end}|${type}|${data}|${status}`,
-			()=> res.json({response: item != null })
+			()=> res.json({response: start <= time && time <= end && status == active })
 		)
 
 	}

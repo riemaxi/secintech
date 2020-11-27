@@ -1,4 +1,5 @@
 {
+	"EMPTY" : "N.A.",
 	"key" : {
 		"status" : {
 			"INACTIVE" : 0,
@@ -19,8 +20,13 @@
 	"tx" : {
 		"type" : {
 			"KEYADD" : 0,
-			"KEYLOOKUP" : 1,
-			"KEYUPDATE" : 2
+			"KEYLOOKUPFOUND" : 1,
+			"KEYLOOKUPNOTFOUND" : -1,
+			"KEYUPDATECONFIRMED" : 2,
+			"KEYUPDATEDEACTIVATED" : 3,
+			"KEYUPDATEDENIED" : -2
+
+
 		}
 	}
 }
