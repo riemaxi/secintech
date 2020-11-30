@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>OneloqCentral video streaming</title>
+
+            <script>
+                //var channel = "ws://ec2-13-53-207-237.eu-north-1.compute.amazonaws.com:4567/systream";
+                var channel = "ws://localhost:4567/systream"
+                let ws = new WebSocket(channel);
+                ws.onopen = (ev) => {
+
+                    ws.onmessage = (ev) => {
+                        console.log(typeof(ev.data))
+                        if (typeof(ev.data) != "string"){
+                            console.log(ev.data.size)
+                        }else
+                            console.log(ev.data)
+                    }
+
+                }
+
+            </script>
+    </head>
+    <body>
+        <img id="preview"></canvas>
+    </body>
+</html>

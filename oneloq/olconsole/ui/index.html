@@ -1,126 +1,24 @@
-<html>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OneloqCentral</title>
+    <link rel="icon" type="image/png" href="img/favicon.png" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 
-	 <link rel="stylesheet" type="text/css" href="css/style.css" />
-	   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-	   <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
 
-	<script>
-		var token = 0
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
-		var table = undefined
-		var data = []
+    <script src="js/qrcode.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/system.js"></script>
+    <script src="js/booter.js"></script>
 
-		function fetch(){
-			$.ajax({url: "transactions", success: function(response){
+</head>
 
-				data = JSON.parse(response)
+<body ></body>
 
-				if (table)
-					table.destroy()
-
-			       table = $("#dataview").DataTable(
-			                {                                                                                                                                                    "paging":   false,
-			                    "ordering": true,
-			                    "info":     false,
-			                    "searching": false,
-
-			                    columns: JSON.parse(data).head,
-						data: JSON.parse(data).tail
-			                }
-			            )
-
-
-			  }});
-
-		}
-
-		function refresh(){
-
-			fetch()
-			setInterval(refresh, 2000)
-		}
-
-		function addkey(){
-			$.ajax({url: "addkey", success: function(data){
-				fetch()
-			}})
-		}
-
-		function deactivatekey(){
-			let owner = $('#deactivate').val()
-			$.ajax({url: `deactivatekey/${owner}`, success: function(data){
-				fetch()
-			}})
-		}
-
-		function confirmkey(){
-			let owner = $('#confirm').val()
-			$.ajax({url: `confirmkey/${owner}`, success: function(data){
-				fetch()
-			}})
-		}
-
-		function checkaccess(){
-			let owner = $('#checkaccess').val()
-			$.ajax({url: `checkaccess/${owner}`, success: function(data){
-				let found = JSON.parse(JSON.parse(data)).response
-				$('#checkaccessresult').text(found? 'found': 'not found')
-
-				fetch()
-			}})
-		}
-
-		function login(){
-			console.log('request login ...')
-			$.ajax({url: "login", success: function(data){
-				token = data
-				$("#message").text(token>0?'Welcome to OLC:SIK Demo' : 'OOOOPS')
-				fetch()
-			}})
-		}
-
-	  $(function () {
-		login()
-		//setInterval( refresh, 2000)
-	  });
-	</script>
-
- 	<body>
-		<label id="message"></label>
-		<div>
-			<button onclick='addkey()'>Add key</button><br>
-			<div>
-				<button onclick='checkaccess()'>Check access</button>
-				<input type='text' id='checkaccess'>
-				<label id='checkaccessresult'></label>
-			</div>
-			<div>
-				<button onclick='deactivatekey()'>Deactivate key</button>
-				<input type='text' id='deactivate'>
-			<div>
-
-			<div>
-				<button onclick='confirmkey()'>Confirm key</button>
-				<input type='text' id='confirm'>
-			<div>
-
-			<div>
-				<br>
-				<label>Transaction type legend</label>
-				<ul>
-					<li>0: Key added</li>				
-					<li>-1: Key not found</li>
-					<li>2: Key confirmed</li>
-					<li>3: Key deactivated</li>
-					<li>-2: Operation on key denied</li>
-				</ul>
-			</div>
-
-			<div>
-				<h2>Transactions</h2>
-				<table id="dataview" class="display"></table>
-			</div>
-		</div>
-	</body>
 </html>

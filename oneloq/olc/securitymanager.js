@@ -5,7 +5,7 @@ class DBManager{
 	}
 
 	lookupUser(user, password, handle){
-		handle(user == 'u' && password == 'p')
+		handle(user == 'filiberto@secintech.com' && password == 'pass')
 	}
 
 	lookupToken(token, handle){

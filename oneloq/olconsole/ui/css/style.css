@@ -1,4 +1,231 @@
-.body{
+@font-face {
+  font-family: 'Logofont';
+  src: url("font/Alcefun.otf");
+}
+
+/* Clear the page */
+body{
   margin: 0;
   background: black;
+}
+
+body *{
+  padding: 0;
+  list-style: none;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100;
+}
+
+.Toolbar{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.Toolbar #internal{
+  background: black;
+  overflow: auto;
+}
+
+.ExitMenu{
+  display: flex;
+  float: right;
+  color: white;
+  margin-right: 10px;
+}
+
+.ExitMenu h3{
+  vertical-align: middle;
+  background: black;
+}
+
+.ExitMenu #superadmin{
+  float: right;
+}
+
+.ExitMenu #usericon img{
+  width: 30px;
+  height: 30px;
+}
+
+.ExitMenu #usericon{
+  padding: 15px 5px;
+}
+
+.Logo {
+  float: left;
+  color: #CCCCCC;
+  font-family: Logofont;
+  font-size: 2em;
+  margin: 10px  ;
+}
+
+#logo{
+  cursor: grab;
+}
+
+
+.Panel{
+  display: flex;
+  height: 1200px;
+}
+
+
+.Menu {
+  min-width: 200px;
+  background: #383F42;
+  margin-left: 10px;
+}
+
+.Menu div{
+  /*padding: 0px 5px;*/
+}
+
+.Panel, .Menu ul, li,h3{
+  background: #383F42;
+}
+
+/* Menu */
+.Menu ul li{
+  display: flex;
+  color: #AAAAAA;
+  text-align: left;
+}
+
+#menuItems #dashboard {
+}
+
+.MIIcon{
+}
+
+.MILabel h3{
+  padding-top: 5px;
+}
+
+.MIIcon img{
+  padding: 20px 15px;
+}
+
+
+.Menu ul li:hover{
+  cursor: grab;
+}
+
+
+/*.Menu ul li{
+  display: flex;
+  text-align: center;
+}*/
+
+.Menu ul li img{
+  width: 27px;
+  height: 27px;
+  filter: brightness(0.5);
+}
+
+/* Workspace */
+.Workspace{
+  width: 100%;
+  background: #FFFFFF;
+  color: black;
+}
+
+.Workspace h3{
+  background: white;
+  color: black;
+  font-weight: bold;
+  font-size: 1.5em;
+  margin: 10px;
+}
+
+.Workarea *{
+  color: black;
+  margin: 0;
+}
+
+#dataview th{
+  text-align: left;
+}
+
+/* Login */
+.Login{
+  margin-top: 200px;
+  background: black;
+}
+
+.Login #qrcode{
+  border-radius: 2px;
+  background: white;
+}
+
+.Login #qrcode img{
+  width: 80px;
+}
+
+.Login h1, .Login h2, .Login h3{
+  padding: 20px;
+}
+
+.Login #band{
+  display: flex;
+  padding: 10px 0px;
+  background: #383F42;
+}
+
+.Login #product{
+  width: 100%;
+  background: black;
+  color: white;
+}
+
+.Login #product h3{
+  background: black;
+  margin: 0px 20%;
+  font-family: Logofont;
+  font-size: 2em;
+}
+
+.Login #form{
+  margin: 0px 20%;
+  width: 300px;
+}
+
+.Login #form div{
+  padding: 2px 0;
+}
+
+
+.Login .Field{
+  display: flex;
+  width: 100%;
+}
+
+.Field label{
+  color: white;
+  width: 100px;
+}
+
+.Login input{
+  width: 100%;
+  border: none;
+  border-radius: 2px;
+  height: 20px;
+}
+
+.Login button{
+  background:  #00A1DB;
+  border: none;
+  border-radius: 2px;
+  width: 70px;
+  height: 20px;
+  cursor: grab;
+  color: white;
+}
+
+.Field div{
+  width: 200px ;
+}
+
+.Field #buttondiv{
+  width: 100%;
 }

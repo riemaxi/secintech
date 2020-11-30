@@ -75,9 +75,9 @@ function transactions(params, res){
 	request(host, path, port,(data) => res.json(data) )
 }
 
-function login(params, res){
+function siklogin(params, res){
 	let host = 'localhost'
-	let path = `/login/u/p`
+	let path = `/login/${params.user}/${params.password}`
 	let port = 5000
 
 	console.log('login ...')
@@ -87,7 +87,11 @@ function login(params, res){
 	})
 }
 
-app.get('/login', (req, res) => login(req.params, res))
+function login(params, res){
+	res.json({ granted: params.user=='filiberto@secintech.com' && params.password=='pass'})
+}
+
+app.get('/login/:user/:password', (req, res) => login(req.params, res))
 app.get('/addkey', (req, res) => addkey(req.params, res))
 app.get('/checkaccess/:owner', (req, res) => checkaccess(req.params, res))
 app.get('/confirmkey/:owner', (req, res) => confirmKey(req.params, res))
