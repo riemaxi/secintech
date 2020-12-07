@@ -110,16 +110,16 @@ let html_user = `
 
 let html_menu = `
 <ul id="menuItems">
-    <li id="dashboard"><div class="MIIcon"><img src="img/dashboard"></div><div class="MILabel"><h3>Dashboard</h3></div></li>
-    <li id="premise"><div class="MIIcon"><img src="img/premise"></div><div class="MILabel"><h3>Premises</h3></div></li>
-    <li id="acl"><div class="MIIcon"><img src="img/acl"></div><div class="MILabel"><h3>Access</h3></div></li>
-    <li id="device"><div class="MIIcon"><img src="img/device"></div><div class="MILabel"><h3>Devices</h3></div></li>
-    <li id="operation"><div class="MIIcon"><img src="img/operation"></div><div class="MILabel"><h3>Operations</h3></div></li>
-    <li id="video"><div class="MIIcon"><img src="img/video"></div><div class="MILabel"><h3>Videos</h3></div></li>
-    <li id="user"><div class="MIIcon"><img src="img/user"></div><div class="MILabel"><h3>Users</h3></div></li>
-    <li id="reservation"><div class="MIIcon"><img src="img/reservation"></div><div class="MILabel"><h3>Reservations</h3></div></li>
-    <li id="sik"><div class="MIIcon"><img src="img/sik"></div><div class="MILabel"><h3>SecinKey</h3></div></li>
-    <li id="setting"><div class="MIIcon"><img src="img/setting"></div><div class="MILabel"><h3>Settings</h3></div></li>
+    <li id="dashboard"><div class="MIIcon"><img src="img/dashboard.png"></div><div class="MILabel"><h3>Dashboard</h3></div></li>
+    <li id="premise"><div class="MIIcon"><img src="img/premise.png"></div><div class="MILabel"><h3>Premises</h3></div></li>
+    <li id="acl"><div class="MIIcon"><img src="img/acl.png"></div><div class="MILabel"><h3>Access</h3></div></li>
+    <li id="device"><div class="MIIcon"><img src="img/device.png"></div><div class="MILabel"><h3>Devices</h3></div></li>
+    <li id="operation"><div class="MIIcon"><img src="img/operation.png"></div><div class="MILabel"><h3>Operations</h3></div></li>
+    <li id="video"><div class="MIIcon"><img src="img/video.png"></div><div class="MILabel"><h3>Videos</h3></div></li>
+    <li id="user"><div class="MIIcon"><img src="img/user.png"></div><div class="MILabel"><h3>Users</h3></div></li>
+    <li id="reservation"><div class="MIIcon"><img src="img/reservation.png"></div><div class="MILabel"><h3>Reservations</h3></div></li>
+    <li id="sik"><div class="MIIcon"><img src="img/sik.png"></div><div class="MILabel"><h3>SecinKey</h3></div></li>
+    <li id="setting"><div class="MIIcon"><img src="img/setting.png"></div><div class="MILabel"><h3>Settings</h3></div></li>
 </ul>
 `
 
@@ -250,7 +250,7 @@ class WorkComponent extends Component{
                     "info":     false,
                     "searching": false,
 
-                    columns: this.columns(data.header),
+                    columns: data.header, //this.columns(data.header),
                     data: data.tail
                 }
             )

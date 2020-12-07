@@ -62,39 +62,39 @@ class System{
     }
 
     deviceLocations(handle){
-        this.request("/syscommand/deviceLocations",handle)
+        this.request("/devicelocations",handle)
     }
 
     devices(handle){
-        this.request("/syscommand/devices",handle)
+        this.request("/devices",handle)
     }
 
     premises(handle){
-        this.request("/syscommand/premises",handle)
+        this.request("/premises",handle)
     }
 
     operation(handle){
-        this.request("/syscommand/operation",handle)
+        this.request("/operation",handle)
     }
 
     setting(handle){
-        this.request("/syscommand/setting",handle)
+        this.request("/setting",handle)
     }
 
     video(handle){
-        this.request("/syscommand/video",handle)
+        this.request("/video",handle)
     }
 
     reservation(handle){
-        this.request("/syscommand/reservation",handle)
+        this.request("/reservation",handle)
     }
 
     acl(handle){
-        this.request("/syscommand/acl",handle)
+        this.request("/acl",handle)
     }
 
     user(handle){
-        this.request("/syscommand/user",handle)
+        this.request("/users",handle)
     }
 
 }

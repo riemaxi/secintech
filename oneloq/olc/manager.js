@@ -1,69 +1,45 @@
-let http = require('http')
 
-class Manager{
-	constructor(sikService){
-		this.sikService = sikService
-	}
+let devices = {
+	head : [{title: 'id'}, {title: 'type'}, {title: 'type'}, {title: 'status'}, { title: 'address'}, {title: 'description'}],
+	tail: [
 
-	request(host, path, port, handle){
-		var result = ''
-		let option = {
-			host: host,
-			port: port,
-			path: path,
-		}
-
-		http.request(option,
-		(res) => {
-			res.on('data', (data) => result += data)
-			res.on('end', ()=> handle(result))
-		}).end()
-	}
-
-
-	sikData(params, res){
-		let token = params.token
-		request(this.sikService.host, 
-			`/sik/data/${token}`, 
-			this.sikService.port, (data) => res.json(data))
-	}
-
-	sikCheckAccess(params, res){
-		let token = params.token
-		let time = params.time
-		let owner = params.owner
-		let type = params.type
-		let data = params.data
-		request(this.sikService.host, 
-			`/checkaccess/${token}/${time}/${owner}/${type}/${data}`, 
-			this.sikService.port, (data) => res.json(data))
-	}
-
-	sikAddKey(params, res){
-		request(this.sikService.host,
-			`/addkey/${params.data}`,
-			this.sikService.port, (data) => res.json(data))
-	}
-
-	sikUpdateKey(params, res){
-		request(this.sikService.host,
-			`/updatekey/${params.data}`,
-			this.sikService.port, (data) => res.json(data))
-	}
-
-	sikConfirmKey(params, res){
-		request(this.sikService.host,
-			`/confirmkey/${params.data}`,
-			this.sikService.port, (data) => res.json(data))
-	}
-
-	sikDeactivateKey(params, res){
-		request(this.sikService.host,
-			`/deactivatekey/${params.data}`,
-			this.sikService.port, (data) => res.json(data))
-	}
-
+		['1','Intercom','Active','192.168.10.100', 'Storage room'],
+	        ['2','Intercom', 'OFFLINE','192.168.10.101','Meeting room'],
+            	['3', 'Access Control','NOT APPROVED', '192.168.10.103','Pantry'],
+            	['4', 'Intercom','Active', '192.168.10.104' ,'High Security'],
+	        ['5','Intercom','Active', '192.168.10.105','Company entrance'],
+            	['6','Intercom','Active', '192.168.10.106','Company main entrance']
+	]
 }
 
+let premises = [
+	head: [],
+	tail: []
+]
+
+   DeviceLocation("1","1"),
+            DeviceLocation("2","1"),
+            DeviceLocation("3","1"),
+            DeviceLocation("5","1"),
+            DeviceLocation("6","1"),
+            DeviceLocation("4","2")
+
+let deviceLocations = []
+
+class Manager{
+	constructor(){
+	}
+
+	devices(res){
+		res.json(devices)
+	}
+
+	deviceLocations(handle){
+		handle([
+			{},
+			{}
+		])
+	}
+}
 
 module.exports = Manager

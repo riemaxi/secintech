@@ -1,49 +1,70 @@
-const config = require('./config.json')
-const SQLManager = require('../common/sqlmanager')
+class DBManager{
+	constructor(dbpath){
+		this.initialize()
+	}
 
-class DBManager extends SQLManager{
-  constructor(dbpath){
-    super(dbpath)
-  }
+	initialize(){
+		this.users = [
+			{id: 1, name: "Lolita", type: "Tenant"},
+			{id :2, name: "Jossa", type: "Cleaning"},
+			{id :3, name: "Maria", type: "Tenant"},
+			{id : 4, name: "Filiberto", type: "Operator"},
+			{id: 5, name: "Johan",type: "Operator"},
+			{id :6, name: "Anna",type: "Operator"},
+			{id : 7, name: "Bacallao", type: "Operator"}
+		]
 
-  initialize(){
-    this.dropTables(['access','device'])
+		this.devices = [
+			{id : 1,type: "Intercom",status: "Active", address: "192.168.10.100", description: "Storage room"},
+			{id: 2, type: "Intercom",status: "OFFLINE",address: "192.168.10.101",description: "Meeting room"},
+			{id: 3, type: "Access Control", status: "NOT APPROVED", address: "192.168.10.103", description: "Pantry"},
+			{id: 4, type: "Intercom", status: "Active", address: "192.168.10.104" , description: "High Security"},
+			{id: 5, type: "Intercom",status: "Active", address: "192.168.10.105", description: "Company entrance"},
+			{id: 6,type: "Intercom",status: "Active", address:  "192.168.10.106", description: "Company main entrance"}
+		]
 
-     this.createTable(
-       'device',
-       'type varchar(256), status varchar(256), address varchar(256), data varchar(256)'
-     )
+		this.premises = [
+			{id: "1",name: "Secintech Labs"},
+			{id: 2, name: "Server Room"}
+		]
 
-    this.createTable(
-      'access',
-      'user varchar(256), password varchar(256)')
+		this.links = [
+			{id: 1, a: 1, b: 2, status: 1, topology: 1, data: 'link 1'},
+			{id: 2, a: 3, b: 6, status: 1, topology: 1, data: 'link 2'},
+			{id: 3, a: 1, b: 4, status: 2, topology: 2, data: 'link 3'},
+			{id: 4, a: 3, b: 5, status: 4, topology: 2, data: 'link 4'},
+			{id: 5, a: 2, b: 6, status: 0, topology: 3, data: 'link 5'}
+		]
+	}
 
-    this.populateUsers()
-    this.populateDevices()
-  }
+	user(id, res){
+		let data = this.users.find( item => item.id == id)
+		res.json({response : data})
+	}
 
-  populateUsers(){
-    this.insert('access','user, password',`'${config.superuser}','${config.superpassword}'`)
+	link(id, res){
+		let data = this.links.find( item => item.id == id)
+		res.json({response : data})
+	}
 
-    this.collection('select * from access', (item) =>  console.log(item) )
-  }
+	listLinks(res){
+		res.json({response: this.links})
+	}
 
-  populateDevices(){
-	this.insert('device','type,status,address, data',"'ACD','NOT APPROVED','X.X.X.X','ACD 12'")
-	this.insert('device','type,status,address, data',"'ACD','NOT APPROVED','X.X.X.X','ACD 25'")
 
-	this.insert('device','type,status,address, data',"'ATD','NOT APPROVED','X.X.X.X','ATD 12'")
+	listDevices(res){
+		res.json({response: this.devices})
+	}
 
-	this.insert('device','type,status,address, data',"'OLS','NOT APPROVED','X.X.X.X','OLS 25'")
-	this.insert('device','type,status,address, data',"'OLS','NOT APPROVED','X.X.X.X','ACD 26'")
+	listUsers(res){
+		res.json({response: this.users})
+	}
 
-	this.insert('device','type,status,address, data',"'SAD','NOT APPROVED','X.X.X.X','SAD 25'")
-	this.insert('device','type,status,address, data',"'SAD','NOT APPROVED','X.X.X.X','SAD 25'")
-	this.insert('device','type,status,address, data',"'SAD','NOT APPROVED','X.X.X.X','SAD 25'")
+	listPremises(res){
+		res.json({response: this.premises})
+	}
 
-    this.collection('select * from device', (item) =>  console.log(item) )
 
-  }
 }
 
 module.exports = DBManager
