@@ -1,45 +1,44 @@
-
-let devices = {
-	head : [{title: 'id'}, {title: 'type'}, {title: 'type'}, {title: 'status'}, { title: 'address'}, {title: 'description'}],
-	tail: [
-
-		['1','Intercom','Active','192.168.10.100', 'Storage room'],
-	        ['2','Intercom', 'OFFLINE','192.168.10.101','Meeting room'],
-            	['3', 'Access Control','NOT APPROVED', '192.168.10.103','Pantry'],
-            	['4', 'Intercom','Active', '192.168.10.104' ,'High Security'],
-	        ['5','Intercom','Active', '192.168.10.105','Company entrance'],
-            	['6','Intercom','Active', '192.168.10.106','Company main entrance']
-	]
-}
-
-let premises = [
-	head: [],
-	tail: []
-]
-
-   DeviceLocation("1","1"),
-            DeviceLocation("2","1"),
-            DeviceLocation("3","1"),
-            DeviceLocation("5","1"),
-            DeviceLocation("6","1"),
-            DeviceLocation("4","2")
-
-let deviceLocations = []
+let http = require('http')
 
 class Manager{
-	constructor(){
+	constructor(config){
+		this.host = config.db.host
+		this.port = config.db.port
 	}
 
-	devices(res){
-		res.json(devices)
+	request(path, handle){
+		var result = ''
+		let option = {
+			host: this.host,
+			port: this.port,
+			path: path,
+		}
+
+		http.request(option,
+		(res) => {
+			res.on('data', (data) => result += data)
+			res.on('end', ()=> handle(result))
+		}).end()
 	}
 
-	deviceLocations(handle){
-		handle([
-			{},
-			{}
-		])
+	login(params, handle){
+		let user = params.user
+		let password = params.password
+		this.request(`/access/find/${user}/${password}`, handle )
 	}
+
+
+	listKeys(params, handle){
+		let user = params.user
+		let password = params.password
+		this.request(`/access/key/list/${user}/${password}`, handle )
+	}
+
+
+	listLinks(params, res){
+		res.json({ response: 'links'})
+	}
+
 }
 
 module.exports = Manager

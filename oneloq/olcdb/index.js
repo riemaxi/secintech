@@ -6,7 +6,9 @@ let port = config.port
 let db = new DBManager(config.dbpath)
 
 app.get ('/access/lookup/:id/', (req, res) =>  db.user(req.params.id, res) )
+app.get ('/access/find/:user/:password', (req, res) =>  db.find(req.params, res) )
 app.get ('/access/list/', (req, res) =>  db.listUsers(res) )
+app.get ('/access/key/list/:user/:password', (req, res) =>  db.listKeys(req.params, res) )
 app.get('/device/list/', (req, res) => db.listDevices(res) )
 app.get('/premises/list/', (req, res) => db.listPremises(res) )
 app.get('/link/lookup/:id/', (req, res) => db.link(req.params.id, res) )
