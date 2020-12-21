@@ -36,6 +36,10 @@ class TokenManager{
 			item.data = data
 		return item
 	}
+
+	get(token){
+		return this.list[token]
+	}
 }
 
 module.exports = TokenManager

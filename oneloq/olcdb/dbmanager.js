@@ -10,12 +10,12 @@ class DBManager{
 			{id :3, name: "maria", type: "Tenant", password : "pass"}
 		]
 
-		this.keys = [
-			{id: 1, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T0", data:"access.garage", contract: "", sender:"", requester: ""},
-			{id: 2, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T1", data:"access.loby", contract: "", sender:"", requester: ""},
-			{id: 3, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T2", data:"access.main", contract: "", sender:"", requester: ""},
-			{id: 4, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T3", data:"access.office", contract: "", sender:"", requester: ""},
-			{id: 5, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T4", data:"access.backdoor", contract: "", sender:"", requester: ""}
+		this.keys = [ //retrieved from sik
+			{id: 1, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T0", data:"access.garage", contract: "", sender:"", requester: "", active: true },
+			{id: 2, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T1", data:"access.loby", contract: "", sender:"", requester: "", active: true },
+			{id: 3, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T2", data:"access.main", contract: "", sender:"", requester: "", active: true },
+			{id: 4, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T3", data:"access.office", contract: "", sender:"", requester: "", active: true },
+			{id: 5, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T4", data:"access.backdoor", contract: "", sender:"", requester: "", active: true }
 		]
 
 		this.acl = [
@@ -103,7 +103,7 @@ class DBManager{
 	}
 
 	listKeys(params, res){
-		let user = this.users.find(item => item.name == params.user && item.password == params.password)
+		let user = this.users.find(item => item.id == params.user)
 		if (user){
 			var keys = this.acl.filter(item => item.user == user.id)
 			keys = keys.map( (item) => this.keys.find(key => key.id == item.key) )

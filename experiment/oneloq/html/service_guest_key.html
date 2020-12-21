@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="/js/qrcode"></script>
+    </head>
+    <body>
+        <div id="qrcode" />
+    </body>
+    <script>
+        var qrmaker = new QRCode(document.getElementById("qrcode"));
+        generate()
+
+        function generate(){
+            qrmaker.makeCode("__DATA__\n" + new Date().getTime())
+
+            sleep(__BED_TIME__).then(() => generate())
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+    </script>
+
+</html>

@@ -102,7 +102,8 @@ function login(params, res){
 }*/
 
 function keys(params, res){
-	mgr.listKeys(params, keys)
+	let token = tm.get(params.token)
+	mgr.listKeys(token.data, res)
 }
 
 function listLinks(params, res){
