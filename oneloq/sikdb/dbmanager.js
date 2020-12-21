@@ -43,7 +43,7 @@ class DBManager extends SQLManager{
 		let end = params.end
 		let type = params.type
 		let data = params.data
-		let status = constant.key.status.INACTIVE
+		let status = params.status
 
 		this.keys.push({
 			owner : owner,
@@ -51,7 +51,7 @@ class DBManager extends SQLManager{
 			end : end,
 			type : type,
 			data : params.data,
-			status : constant.key.status.INACTIVE
+			status : status
 		})
 
 		this.mine(

@@ -37,8 +37,7 @@ class Manager{
 		this.request(this.host, this.port,`/access/find/${user}/${password}`, handle )
 	}
 
-	addkey(params, res){ //'/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient'
-		let token = params.token
+	addkey(token, params, res){ //'/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient'
 		let owner = params.owner
 		let start = params.start
 		let end = params.end

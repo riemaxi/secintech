@@ -16,13 +16,11 @@ let keys = [
 mgr.sikLogin(token  => {
 
 	keys.forEach(key => {
-		key.token = token
-		/*mgr.addkey(key,	{
+		mgr.addkey(token, key,	{
 					send(data){
 						console.log('key added: ', data)
 					}
-				})*/
-		console.log(key)
+				})
 	})
 
 })

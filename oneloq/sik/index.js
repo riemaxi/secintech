@@ -1,7 +1,8 @@
 /* SIK */
+const constant = require('./constant.json')
+const config = require('./config.json')
 
 const app = require('express')()
-const config = require('./config.json')
 const DBManager = require('./dbmanager')
 const TokenManager = require('./tokenmanager')
 
@@ -30,6 +31,12 @@ function transactions(params, res){
 }
 
 function addKey(params, res){
+	params.status = constant.key.status.inactive
+	db.addKey(params, res)
+}
+
+function addActiveKey(params, res){
+	params.status = constant.key.status.active
 	db.addKey(params, res)
 }
 
@@ -49,6 +56,8 @@ app.get('/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:tx
 app.get('/confirmkey/:token/:owner/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, confirmKey, req.params, res) )
 app.get('/deactivatekey/:token/:owner/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, deactivateKey, req.params, res)  )
 app.get('/updatekey/:token/:owner', (req, res) => db.updateKey(req.params, res)  )
+
+app.get('/addactivekey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, addActiveKey, req.params, res) )
 
 app.listen(config.port, (err) => console.log(`Sik on ${config.port} ...`))
 
