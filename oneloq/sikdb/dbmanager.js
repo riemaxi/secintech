@@ -41,12 +41,17 @@ class DBManager extends SQLManager{
 		let owner = params.owner
 		let lst = this.keys.filter( key => key.owner == owner )
 
-		this.mine(
-			constant.tx.type.KEYLIST,
-			params,
-			`${owner}`,
-			() => res.json( { keys : lst?lst:[] } )
-		)
+		lst.forEach(key => {
+
+			this.mine(
+				constant.tx.type.KEYLIST,
+				params,
+				`${owner}|${key.id}`,
+				() => {}
+			)
+		})
+
+		res.json( { keys : lst?lst:[] } )
 	}
 
 	keyAdd(params, res){
