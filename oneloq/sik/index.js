@@ -7,7 +7,7 @@ const DBManager = require('./dbmanager')
 const TokenManager = require('./tokenmanager')
 
 let tm = new TokenManager(config.session.duration)
-let db = new DBManager(config.db)
+let db = new DBManager(config)
 
 function response(token, requestFunction, params, res ){
 	if (tm.check(parseInt(token)))

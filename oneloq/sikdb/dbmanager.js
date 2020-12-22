@@ -38,8 +38,15 @@ class DBManager extends SQLManager{
 	}
 
 	getkeys(params, res){
-		let lst = this.keys.filter( key => key.owner == params.owner )
-		res.json({ keys : lst?lst:[] })
+		let owner = params.owner
+		let lst = this.keys.filter( key => key.owner == owner )
+
+		this.mine(
+			constant.tx.type.KEYLIST,
+			params,
+			`${owner}`,
+			() => res.json( { keys : lst?lst:[] } )
+		)
 	}
 
 	keyAdd(params, res){
@@ -134,8 +141,8 @@ class DBManager extends SQLManager{
 		this.bc.collectionToClosure(
 			params.limit,
 			(item) => data.tail.push([item.time, item.type, item.sender, item.requester, item.recipient,item.data]),
-			()=> res.json(data),
-			()=> res.json(data))
+			()=> res.send(data),
+			()=> res.send(data))
 	}
 
 	mine(txType, params, data, handle){

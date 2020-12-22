@@ -3,8 +3,9 @@ let constant = require('./constant.json')
 
 class DBManager{
 	constructor(config){
-		this.host = config.host
-		this.port = config.port
+		this.config = config
+		this.host = config.db.host
+		this.port = config.db.port
 	}
 
 	request(path, handle){
@@ -37,11 +38,16 @@ class DBManager{
 
 
 	transactions(params, res){
-		this.request(`/transaction/list/${params.limit}`, (data) => res.json(data))
+		this.request(`/transaction/list/${params.limit}`, (data) => res.send(data))
 	}
 
 	keys(params, res){
-		this.request(`/key/list/${params.owner}`, (data) => res.send(data))
+		let contract = this.config.contract.standard
+		let sender = this.config.id
+		let recipient = this.config.client
+		let requester = this.config.client
+
+		this.request(`/key/list/${params.owner}/${contract}/${sender}/${requester}/${recipient}`, (data) => res.send(data))
 	}
 
 

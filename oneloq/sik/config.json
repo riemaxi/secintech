@@ -1,9 +1,13 @@
 {
+	"id" : "SIK20210101T000000COVID19",
 	"port" : 5000,
 	"superuser": "u",
 	"superpassword": "p",
+	"client" : "OLC20210101T000000COVID19",
 
 	"session" : { "duration" : 600000} ,
 
-	"db" : {"host" : "localhost", "port": 5500}
+	"db" : {"host" : "localhost", "port": 5500},
+
+	"contract" : { "standard" : "CONTRACTCOVID19"}
 }

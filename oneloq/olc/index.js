@@ -17,7 +17,7 @@ function response(token, requestFunction, params, res ){
 
 function keys(params, res){
 	let item = tm.get(params.token)
-	mgr.listKeys({token: params.token, user: item.data}, res)
+	mgr.listKeys({user: item.data}, res)
 }
 
 function listLinks(params, res){

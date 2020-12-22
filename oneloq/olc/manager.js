@@ -83,7 +83,6 @@ class Manager{
 
 	listKeys(params, res){
 		let user = params.user
-		let token = params.token
 
 		this.request(this.sik.host, this.sik.port, `/keys/${this.sikToken}/${user}`, (data)=>	res.send(data) )
 	}
