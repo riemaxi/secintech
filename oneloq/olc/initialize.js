@@ -1,27 +1,24 @@
-const Manager = require('./manager')
 const config = require('./config.json')
+const Manager = require('./manager')
 
 let mgr = new Manager(config)
 
-let keys = [
-	{id: 1, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T0", data:"access.garage", contract: "", sender:"", requester: "", active: true },
-	{id: 2, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T1", data:"access.loby", contract: "", sender:"", requester: "", active: true },
-	{id: 3, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T2", data:"access.main", contract: "", sender:"", requester: "", active: true },
-	{id: 4, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T3", data:"access.office", contract: "", sender:"", requester: "", active: true },
-	{id: 5, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T4", data:"access.backdoor", contract: "", sender:"", requester: "", active: true }
+let acl = [
+	{user: 1, key: 1},
+	{user: 1, key: 2},
+	{user: 2, key: 3},
+	{user: 2, key: 4},
+	{user: 3, key: 5}
 ]
 
-//'/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient'
 
 mgr.sikLogin(token  => {
-
-	keys.forEach(key => {
-		mgr.addkey(token, key,	{
+	acl.forEach(acc => {
+		mgr.addactivekey(token, acc,	{
 					send(data){
 						console.log('key added: ', data)
 					}
 				})
 	})
-
 })
 

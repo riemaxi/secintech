@@ -10,13 +10,14 @@ class DBManager{
 			{id :3, name: "maria", type: "Tenant", password : "pass"}
 		]
 
-		this.keys = [ //retrieved from sik
-			{id: 1, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T0", data:"access.garage", contract: "", sender:"", requester: "", active: true },
-			{id: 2, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T1", data:"access.loby", contract: "", sender:"", requester: "", active: true },
-			{id: 3, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T2", data:"access.main", contract: "", sender:"", requester: "", active: true },
-			{id: 4, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T3", data:"access.office", contract: "", sender:"", requester: "", active: true },
-			{id: 5, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T4", data:"access.backdoor", contract: "", sender:"", requester: "", active: true }
+		this.keys = [
+			{id: 1, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T0", data:"access.garage", contract: "c", sender:"s", requester: "q", recipient: "r", active: true },
+			{id: 2, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T1", data:"access.loby", contract: "c", sender:"s", requester: "q", recipient: "r", active: true },
+			{id: 3, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T2", data:"access.main", contract: "c", sender:"s", requester: "q", recipient: "r", active: true },
+			{id: 4, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T3", data:"access.office", contract: "c", sender:"s", requester: "q", recipient: "r", active: true },
+			{id: 5, start: "2019-01-01T00:00:00", end: "2021-01-01T00:00:00", type:"T4", data:"access.backdoor", contract: "c", sender:"s", requester: "q", recipient: "r", active: true }
 		]
+
 
 		this.acl = [
 			{user: 1, key: 1},
@@ -100,6 +101,14 @@ class DBManager{
 
 	listPremises(res){
 		res.json({response: this.premises})
+	}
+
+	lookupKey(params, res){
+		let acc = this.acl.find(item => item.user == params.user && item.key == params.key)
+		if (acc)
+			res.json({ key : this.keys.find(item => item.id == acc.key)} )
+		else
+			res.json({})
 	}
 
 	listKeys(params, res){

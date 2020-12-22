@@ -37,8 +37,14 @@ class DBManager extends SQLManager{
 		res.json({ response: hit != null })
 	}
 
+	getkeys(params, res){
+		let lst = this.keys.filter( key => key.owner == params.owner )
+		res.json({ keys : lst?lst:[] })
+	}
+
 	keyAdd(params, res){
 		let owner = params.owner
+		let id = params.id
 		let start = params.start
 		let end = params.end
 		let type = params.type
@@ -47,6 +53,7 @@ class DBManager extends SQLManager{
 
 		this.keys.push({
 			owner : owner,
+			id: id,
 			start : start,
 			end : end,
 			type : type,
@@ -57,7 +64,7 @@ class DBManager extends SQLManager{
 		this.mine(
 			constant.tx.type.KEYADD,
 			params,
-			`${owner}|${start}|${end}|${type}|${data}|${status}`,
+			`${owner}|${id}|${start}|${end}|${type}|${data}|${status}`,
 			() => res.json({ response: constant.key.response.status.OK})
 		)
 
@@ -65,10 +72,11 @@ class DBManager extends SQLManager{
 
 	keyUpdateStatus(params, res){
 		let owner = params.owner
+		let id = params.id
 		let deactivated = constant.key.status.DEACTIVATED
 		let status = params.value
 
-		var item = this.keys.find(e => e.owner == owner)
+		var item = this.keys.find(e => e.owner == owner && e.id == id)
 
 		var txType = status == constant.key.status.ACTIVE ? constant.tx.type.KEYUPDATECONFIRMED : constant.tx.type.KEYUPDATEDEACTIVATED
 		if (item == null || item.status == deactivated)
@@ -87,7 +95,7 @@ class DBManager extends SQLManager{
 		this.mine(
 			txType,
 			params,
-			`${owner}|${start}|${end}|${type}|${data}|${item.status}`,
+			`${owner}|${id}|${start}|${end}|${type}|${data}|${item.status}`,
 			() => res.json({ response: item != null ? constant.key.response.status.OK : constant.key.response.status.NOTFOUND})
 		)
 	}
@@ -95,11 +103,12 @@ class DBManager extends SQLManager{
 
 	keyLookup(params, res){
 		let owner = params.owner
+		let id = params.id
 		let time = params.time
 		let active = constant.key.status.ACTIVE
 
 		console.log(time, owner)
-		let item = this.keys.find(e => e.owner == owner)
+		let item = this.keys.find(e => e.owner == owner && e.id == id)
 
 		let type = item != null?item.type:constant.EMPTY
 		let  data = item != null?item.data:constant.EMPTY
@@ -110,7 +119,7 @@ class DBManager extends SQLManager{
 		this.mine(
 			item != null ? constant.tx.type.KEYLOOKUPFOUND : constant.tx.type.KEYLOOKUPNOTFOUND,
 			params,
-			`${owner}|${start}|${end}|${type}|${data}|${status}`,
+			`${owner}|${start}|${id}|${end}|${type}|${data}|${status}`,
 			()=> res.json({response: start <= time && time <= end && status == active })
 		)
 

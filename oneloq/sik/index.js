@@ -31,12 +31,12 @@ function transactions(params, res){
 }
 
 function addKey(params, res){
-	params.status = constant.key.status.inactive
+	params.status = constant.key.status.INACTIVE
 	db.addKey(params, res)
 }
 
 function addActiveKey(params, res){
-	params.status = constant.key.status.active
+	params.status = constant.key.status.ACTIVE
 	db.addKey(params, res)
 }
 
@@ -48,16 +48,19 @@ function deactivateKey(params, res){
 	db.deactivateKey(params, res)
 }
 
+function keys(params, res){
+	db.keys(params, res)
+}
 
 app.get('/login/:user/:password', (req, res) => login(req.params, res) )
-app.get('/checkaccess/:token/:time/:owner/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) =>  response(req.params.token, checkAccess, req.params, res) )
+app.get('/checkaccess/:token/:time/:owner/:id/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) =>  response(req.params.token, checkAccess, req.params, res) )
 app.get('/transactions/:token/:limit', (req, res) => response(req.params.token, transactions, req.params, res) )
-app.get('/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, addKey, req.params, res) )
-app.get('/confirmkey/:token/:owner/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, confirmKey, req.params, res) )
-app.get('/deactivatekey/:token/:owner/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, deactivateKey, req.params, res)  )
-app.get('/updatekey/:token/:owner', (req, res) => db.updateKey(req.params, res)  )
+app.get('/addkey/:token/:owner/:id/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, addKey, req.params, res) )
+app.get('/confirmkey/:token/:owner/:id/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, confirmKey, req.params, res) )
+app.get('/deactivatekey/:token/:owner/:id/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, deactivateKey, req.params, res)  )
+app.get('/keys/:token/:owner', (req, res) => response(req.params.token, keys, req.params, res) )
+app.get('/updatekey/:token/:owner/:id', (req, res) => db.updateKey(req.params, res)  )
 
-app.get('/addactivekey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, addActiveKey, req.params, res) )
+app.get('/addactivekey/:token/:owner/:id/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, addActiveKey, req.params, res) )
 
 app.listen(config.port, (err) => console.log(`Sik on ${config.port} ...`))
-

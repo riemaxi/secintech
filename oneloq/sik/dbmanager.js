@@ -32,7 +32,7 @@ class DBManager{
 
 
 	checkAccess(params, res){
-		this.request(`/key/lookup/${params.owner}/${params.time}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data) )
+		this.request(`/key/lookup/${params.owner}/${params.id}/${params.time}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data) )
 	}
 
 
@@ -40,19 +40,23 @@ class DBManager{
 		this.request(`/transaction/list/${params.limit}`, (data) => res.json(data))
 	}
 
+	keys(params, res){
+		this.request(`/key/list/${params.owner}`, (data) => res.send(data))
+	}
+
 
 	addKey(params, res){
-		this.request(`/key/add/${params.owner}/${params.start}/${params.end}/${params.type}/${params.data}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}/${params.status}`, (data) => res.json(data) )
+		this.request(`/key/add/${params.owner}/${params.id}/${params.start}/${params.end}/${params.type}/${params.data}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}/${params.status}`, (data) => res.json(data) )
 	}
 
 	confirmKey(params, res){
 		let active = constant.key.status.ACTIVE
-		this.request(`/key/update/status/${params.owner}/${active}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data))
+		this.request(`/key/update/status/${params.owner}/${params.id}/${active}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data))
 	}
 
 	deactivateKey(params, res){
 		let deactivated = constant.key.status.DEACTIVATED
-		this.request(`/key/update/status/${params.owner}/${deactivated}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data))
+		this.request(`/key/update/status/${params.owner}/${params.id}/${deactivated}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data))
 	}
 }
 

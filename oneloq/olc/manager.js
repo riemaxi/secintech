@@ -5,6 +5,8 @@ class Manager{
 		this.host = config.db.host
 		this.port = config.db.port
 		this.sik = config.sik
+
+		this.sikLogin( token => this.sikToken = token )
 	}
 
 	request(host, port, path, handle){
@@ -37,6 +39,11 @@ class Manager{
 		this.request(this.host, this.port,`/access/find/${user}/${password}`, handle )
 	}
 
+	lookupKey(user, key, handle){
+		let path = `/access/key/lookup/${user}/${key}`
+		this.request(this.host, this.port, path, handle)
+	}
+
 	addkey(token, params, res){ //'/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient'
 		let owner = params.owner
 		let start = params.start
@@ -48,18 +55,49 @@ class Manager{
 		let requester = params.requester
 		let recipient = params.recipient
 
-		let path = `/addkey/${token}/${owner}/${start}/${end}/${type}/${data}/${contract}/${sender}/${requester}/${recipient}`
+		let path = `/addkey/${this.sikToken}/${owner}/${start}/${end}/${type}/${data}/${contract}/${sender}/${requester}/${recipient}`
 		this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
 	}
 
-	listKeys(user, res){
-		console.log('listKeys:', user)
-		this.request(this.host, this.port, `/access/key/list/${user}`, (data)=>res.send(data) )
+	addactivekey(token, params, res){ //'/addactivekey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient'
+		let user = params.user
+		let key = params.key
+		this.lookupKey(user, key, (resdata) => {
+			let params = JSON.parse(resdata).key
+
+			let start = params.start
+			let end = params.end
+			let type = params.type
+			let data = params.data
+			let contract = params.contract
+			let sender = params.sender
+			let requester = params.requester
+			let recipient = params.recipient
+
+			let path = `/addactivekey/${this.sikToken}/${user}/${key}/${start}/${end}/${type}/${data}/${contract}/${sender}/${requester}/${recipient}`
+			this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
+		})
+
+	}
+
+
+	listKeys(params, res){
+		let user = params.user
+		let token = params.token
+
+		this.request(this.sik.host, this.sik.port, `/keys/${this.sikToken}/${user}`, (data)=>	res.send(data) )
 	}
 
 
 	listLinks(params, res){
 		res.json({ response: 'links'})
+	}
+
+	listTransactions(params, res){
+		let token = params.token
+		let limit = params.limit
+		let path  = `/transactions/${token}/${limit}`
+		this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
 	}
 
 }
