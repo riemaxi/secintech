@@ -46,7 +46,7 @@ class DBManager extends SQLManager{
 			this.mine(
 				constant.tx.type.KEYLIST,
 				params,
-				`${owner}|${key.id}`,
+				`${owner}|${key.id}|${key.status}`,
 				() => {}
 			)
 		})
