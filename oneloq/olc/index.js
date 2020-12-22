@@ -15,6 +15,11 @@ function response(token, requestFunction, params, res ){
 		res.json({ response: 'timeout'})
 }
 
+function checkaccess(params, res){
+	let item = tm.get(params.token)
+	mgr.checkAccess({user: item.data, key: params.key}, res)
+}
+
 function keys(params, res){
 	let item = tm.get(params.token)
 	mgr.listKeys({user: item.data}, res)

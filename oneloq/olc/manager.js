@@ -39,24 +39,38 @@ class Manager{
 		this.request(this.host, this.port,`/access/find/${user}/${password}`, handle )
 	}
 
+	function checkAccess(params, res){
+		let user = params.user
+		let key = params.key
+		let time = new Date().getTime()
+		let path = `/checkaccess/${this.sikToken}/${time}/${user}/${key}`
+		this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
+	}
+
 	lookupKey(user, key, handle){
 		let path = `/access/key/lookup/${user}/${key}`
 		this.request(this.host, this.port, path, handle)
 	}
 
 	addkey(token, params, res){ //'/addkey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient'
-		let owner = params.owner
-		let start = params.start
-		let end = params.end
-		let type = params.type
-		let data = params.data
-		let contract = params.contract
-		let sender = params.sender
-		let requester = params.requester
-		let recipient = params.recipient
+		let user = params.user
+		let key = params.key
+		this.lookupKey(user, key, (resdata) => {
+			let params = JSON.parse(resdata).key
 
-		let path = `/addkey/${this.sikToken}/${owner}/${start}/${end}/${type}/${data}/${contract}/${sender}/${requester}/${recipient}`
-		this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
+			let start = params.start
+			let end = params.end
+			let type = params.type
+			let data = params.data
+			let contract = params.contract
+			let sender = params.sender
+			let requester = params.requester
+			let recipient = params.recipient
+
+			let path = `/addkey/${this.sikToken}/${user}/${key}/${start}/${end}/${type}/${data}/${contract}/${sender}/${requester}/${recipient}`
+			this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
+		})
+
 	}
 
 	addactivekey(token, params, res){ //'/addactivekey/:token/:owner/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient'
@@ -93,9 +107,8 @@ class Manager{
 	}
 
 	listTransactions(params, res){
-		let token = params.token
 		let limit = params.limit
-		let path  = `/transactions/${token}/${limit}`
+		let path  = `/transactions/${this.sikToken}/${limit}`
 		this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
 	}
 
