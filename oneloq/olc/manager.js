@@ -39,7 +39,7 @@ class Manager{
 		this.request(this.host, this.port,`/access/find/${user}/${password}`, handle )
 	}
 
-	function checkAccess(params, res){
+	checkAccess(params, res){
 		let user = params.user
 		let key = params.key
 		let time = new Date().getTime()

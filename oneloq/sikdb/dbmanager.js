@@ -57,8 +57,8 @@ class DBManager extends SQLManager{
 	keyAdd(params, res){
 		let owner = params.owner
 		let id = params.id
-		let start = params.start
-		let end = params.end
+		let start = new Date(params.start).getTime()
+		let end = new Date(params.end).getTime()
 		let type = params.type
 		let data = params.data
 		let status = params.status
@@ -119,7 +119,6 @@ class DBManager extends SQLManager{
 		let time = params.time
 		let active = constant.key.status.ACTIVE
 
-		console.log(time, owner)
 		let item = this.keys.find(e => e.owner == owner && e.id == id)
 
 		let type = item != null?item.type:constant.EMPTY
@@ -132,7 +131,7 @@ class DBManager extends SQLManager{
 			item != null ? constant.tx.type.KEYLOOKUPFOUND : constant.tx.type.KEYLOOKUPNOTFOUND,
 			params,
 			`${owner}|${start}|${id}|${end}|${type}|${data}|${status}`,
-			()=> res.json({response: start <= time && time <= end && status == active })
+			()=> res.send({response: start <= time && time <= end && status == active })
 		)
 
 	}

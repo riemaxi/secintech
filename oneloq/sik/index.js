@@ -53,7 +53,7 @@ function keys(params, res){
 }
 
 app.get('/login/:user/:password', (req, res) => login(req.params, res) )
-app.get('/checkaccess/:token/:time/:owner/:id/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) =>  response(req.params.token, checkAccess, req.params, res) )
+app.get('/checkaccess/:token/:time/:owner/:id', (req, res) =>  response(req.params.token, checkAccess, req.params, res) )
 app.get('/transactions/:token/:limit', (req, res) => response(req.params.token, transactions, req.params, res) )
 app.get('/addkey/:token/:owner/:id/:start/:end/:type/:data/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, addKey, req.params, res) )
 app.get('/confirmkey/:token/:owner/:id/:txcontract/:txsender/:txrequester/:txrecipient', (req, res) => response(req.params.token, confirmKey, req.params, res) )

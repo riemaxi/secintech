@@ -33,7 +33,12 @@ class DBManager{
 
 
 	checkAccess(params, res){
-		this.request(`/key/lookup/${params.owner}/${params.id}/${params.time}/${params.txcontract}/${params.txsender}/${params.txrequester}/${params.txrecipient}`, (data) => res.json(data) )
+		let contract = this.config.contract.standard
+		let sender = this.config.id
+		let recipient = this.config.client
+		let requester = this.config.client
+
+		this.request(`/key/lookup/${params.owner}/${params.id}/${params.time}/${contract}/${sender}/${requester}/${recipient}`, (data) => res.send(data) )
 	}
 
 
