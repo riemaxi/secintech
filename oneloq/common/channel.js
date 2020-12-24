@@ -1,5 +1,5 @@
-const ws = require('ws')
-const WebSocketServer = ws.Server
+const WebSocket = require('ws')
+const WebSocketServer = WebSocket.Server
 
 class Channel{
 	constructor(config){
@@ -13,8 +13,13 @@ class Channel{
 
 	handleConnection(ws){
 		ws.on('message', message => this.handleMessage(message, ws))
+		ws.on('close', ()=> this.handleConnectionClosed(ws))
 
 		console.log('connection ...')
+	}
+
+	handleConnectionClosed(ws){
+		console.log('connection closed')
 	}
 
 	handleMessage(message, ws){
@@ -22,7 +27,10 @@ class Channel{
 	}
 
 	connect(host, handle){
-		handle(host)
+		let ws = new WebSocket(host)
+		ws.on('open', ()=>handle({id: 'open', source: ws}))
+		ws.on('close', ()=>handle({id: 'close', source: ws}))
+		ws.on('message', (message)=>handle({id: 'msg', source: ws, data : message}))
 	}
 }
 

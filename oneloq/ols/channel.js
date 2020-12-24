@@ -5,10 +5,13 @@ class CustomChannel extends Channel{
 	constructor(config){
 		super(config)
 
-		this.connect(config.central.host, (ws) => this.handleCentral(ws))
+		this.connect(config.central.host, (ev) => this.handleCentral(ev))
 	}
 
-	handleCentral(ws){
+	handleCentral(ev){
+		ev.source.send(ev.id == 'open'?'I am an OLS channel agent with adapter capabilities ...':'bye...')
+		if (ev.id == 'msg')
+			console.log(ev.data)
 	}
 
 }
