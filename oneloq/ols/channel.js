@@ -1,4 +1,6 @@
 const Channel = require('../common/channel')
+const Adapter = require('./adapter')
+const Relay = require('./relay')
 
 class CustomChannel extends Channel{
 	constructor(config){
@@ -8,7 +10,6 @@ class CustomChannel extends Channel{
 	}
 
 	handleCentral(ws){
-		console.log(ws)
 	}
 
 }

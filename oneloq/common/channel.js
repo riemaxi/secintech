@@ -1,4 +1,5 @@
-const WebSocketServer = require('ws').Server
+const ws = require('ws')
+const WebSocketServer = ws.Server
 
 class Channel{
 	constructor(config){
