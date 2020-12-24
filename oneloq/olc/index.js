@@ -4,6 +4,7 @@ const config = require('./config.json')
 const http = require('http')
 const TokenManager = require('./tokenmanager')
 const Manager = require('./manager')
+const Channel = require('./channel')
 
 let tm = new TokenManager(config.session.duration)
 let mgr = new Manager(config)
@@ -55,3 +56,5 @@ app.get('/access/confirmkey/:token/:key', (req, res) => response(req.params.toke
 
 app.use(express.static('ui'))
 app.listen(config.port, () => console.log(`OLConsole on ${config.port}`) )
+
+new Channel(config.channel)

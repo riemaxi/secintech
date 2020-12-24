@@ -2,5 +2,7 @@
 	"port" : "3100",
 	"session" : { "duration" : 3600000},
 	"db" : {"host" : "localhost", "port" : "3500"},
-	"sik" : {"host" : "localhost", "port" : "5000", "login" : { "user": "u", "password" : "p"}}
+	"sik" : {"host" : "localhost", "port" : "5000", "login" : { "user": "u", "password" : "p"}},
+
+	"channel" : {"port" : 3101, "greeting" : "OLC channel agent on $PORT"}
 }

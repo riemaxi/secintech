@@ -1,6 +1,9 @@
-const app = require('express')()
+const config = require('./config.json')
+const express = require('express')
+const Channel = require('./channel')
 
-app.get('/', (req, res) => res.send('hello OLSer ...') )
+const app = express()
+app.use(express.static('ui'))
+app.listen(config.port, (err) => console.log(`OLS agent on ${config.port} ...`))
 
-let port = 7000
-app.listen(port, (err) => console.log(`OLS on ${port} ...`))
+new Channel(config.channel)
