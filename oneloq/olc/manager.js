@@ -39,12 +39,24 @@ class Manager{
 		this.request(this.host, this.port,`/access/find/${user}/${password}`, handle )
 	}
 
+	sendOLScommand(command, acd, data, handle){
+		/*this.ols[acd].execute(command, (sad) => {
+			data.sad = sad
+			handle(data)
+		})*/
+	}
+
 	checkAccess(params, res){
 		let user = params.user
 		let key = params.key
 		let time = new Date().getTime()
 		let path = `/checkaccess/${this.sikToken}/${time}/${user}/${key}`
-		this.request(this.sik.host, this.sik.port, path, (data) => res.send(data) )
+		this.request(this.sik.host, this.sik.port, path, (data) => {
+			if (data.response){
+				this.sendOLScommand('open', params.acd, data, (data) => res.send(data))
+			}else
+				res.send(data)
+		})
 	}
 
 	lookupKey(user, key, handle){

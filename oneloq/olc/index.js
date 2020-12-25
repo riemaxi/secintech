@@ -18,7 +18,7 @@ function response(token, requestFunction, params, res ){
 
 function checkaccess(params, res){
 	let item = tm.get(params.token)
-	mgr.checkAccess({user: item.data, key: params.key}, res)
+	mgr.checkAccess({user: item.data, key: params.key, acd : params.acd}, res)
 }
 
 function keys(params, res){
