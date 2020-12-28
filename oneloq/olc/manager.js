@@ -1,4 +1,5 @@
 let http = require('http')
+const OLSChannel = require('./ols')
 
 class Manager{
 	constructor(config){
@@ -7,6 +8,9 @@ class Manager{
 		this.sik = config.sik
 
 		this.sikLogin( token => this.sikToken = token )
+
+		this.ols = {'acd_000' : new OLSChannel(config.channel, (sad) => this.handleSAD(msg,  'acd_000'))}
+		//this.acd = {'acd_000' : new ACD()}
 	}
 
 	request(host, port, path, handle){
@@ -27,8 +31,8 @@ class Manager{
 	sikLogin(handle){
 		let user = this.sik.login.user
 		let password = this.sik.login.password
-		this.request(this.sik.host, this.sik.port, 
-				`/login/${user}/${password}`, 
+		this.request(this.sik.host, this.sik.port,
+				`/login/${user}/${password}`,
 				data => handle(JSON.parse(data).token) )
 	}
 
@@ -39,7 +43,11 @@ class Manager{
 		this.request(this.host, this.port,`/access/find/${user}/${password}`, handle )
 	}
 
-	sendOLScommand(command, acd, data, handle){
+	handleSAD(msg,  target){
+		//this.acd[target].send(msg)
+	}
+
+	sendOLScommand(command, acd, target, data, handle){
 		/*this.ols[acd].execute(command, (sad) => {
 			data.sad = sad
 			handle(data)
@@ -53,7 +61,7 @@ class Manager{
 		let path = `/checkaccess/${this.sikToken}/${time}/${user}/${key}`
 		this.request(this.sik.host, this.sik.port, path, (data) => {
 			if (data.response){
-				this.sendOLScommand('open', params.acd, data, (data) => res.send(data))
+				this.sendOLScommand('open', params.acd, params.target, data, (data) => res.send(data))
 			}else
 				res.send(data)
 		})

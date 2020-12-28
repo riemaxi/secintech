@@ -1,10 +1,10 @@
+const data = require('./data.json')
 const Channel = require('../common/channel')
-const Adapter = require('./adapter')
 
-class CustomChannel extends Channel{
+class Manager extends Channel{
+
 	constructor(config){
 		super(config)
-
 		this.connect(config.central.host, (ev) => this.handleCentral(ev))
 	}
 
@@ -16,4 +16,4 @@ class CustomChannel extends Channel{
 
 }
 
-module.exports = CustomChannel
+module.exports = Manager
