@@ -27,6 +27,7 @@ class Manager extends Channel{
 	}
 
 	load(path){
+		this.datapath = path
 		fs.readFile(path, (error, data) => {
 			console.log(error?error:'')
 
@@ -35,7 +36,7 @@ class Manager extends Channel{
 	}
 
 	save(){
-		fs.writeFile('./data.json',  this.serialize(this.data), error => console.log(error?error:''))
+		fs.writeFile(this.datapath,  this.serialize(this.data), error => console.log(error?error:''))
 
 	}
 
