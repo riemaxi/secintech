@@ -3,5 +3,7 @@
 	"channel" : {
 		"port" : 7001,
 		"greeting" : "OLS channel agent on $PORT",
-		"central" : {"host" : "ws://192.168.10.123:3101"}}
+		"central" : {"host" : "ws://192.168.10.123:3101"},
+		"data" : "./data.json"
+	}
 }

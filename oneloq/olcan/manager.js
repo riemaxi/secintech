@@ -1,4 +1,3 @@
-const data = require('./data.json')
 const Channel = require('../common/channel')
 const fs = require('fs')
 
@@ -7,6 +6,8 @@ class Manager extends Channel{
 	constructor(config){
 		super(config)
 		this.connect(config.central.host, (ev) => this.handleCentral(ev))
+
+		this.load(config.data)
 	}
 
 	handleCentral(ev){
@@ -25,8 +26,16 @@ class Manager extends Channel{
 }`
 	}
 
+	load(path){
+		fs.readFile(path, (error, data) => {
+			console.log(error?error:'')
+
+			this.data = error? {} : JSON.parse(data)
+		})
+	}
+
 	save(){
-		fs.writeFile('./data.json',  this.serialize(data), error => console.log(error?error:''))
+		fs.writeFile('./data.json',  this.serialize(this.data), error => console.log(error?error:''))
 
 	}
 
