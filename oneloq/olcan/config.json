@@ -2,7 +2,7 @@
 	"port" : 7000,
 	"channel" : {
 		"port" : 7001,
-		"greeting" : "OLS channel agent on $PORT",
+		"greeting" : "OLCAN channel on $PORT",
 		"central" : {"host" : "ws://192.168.10.123:3101"},
 		"data" : "./data.json"
 	}

@@ -1,19 +1,64 @@
-const Channel = require('../common/channel')
 const fs = require('fs')
+const Channel = require('../common/channel')
+const af = require('./agent-factory')
 
 class Manager extends Channel{
 
 	constructor(config){
 		super(config)
-		this.connect(config.central.host, (ev) => this.handleCentral(ev))
-
+		this.olcHost = config.central.host
 		this.load(config.data)
 	}
 
+
+	initializeAgents(){
+		this.agents = {}
+
+		this.data.ols.forEach(config => {
+			this.agents[config.id] = af.create('ols', config)
+		})
+
+		this.data.sad.forEach(config => {
+			this.agents[config.id] = af.create('sad', config)
+		})
+
+		this.data.acd.forEach(config => {
+			this.agents[config.id] = af.create('acd', config)
+		})
+
+		this.data.atd.forEach(config => {
+			this.agents[config.id] = af.create('atd', config)
+		})
+
+		this.data.sensor.forEach(config => {
+			this.agents[config.id] = af.create('sensor', config)
+		})
+
+		this.connect(this.olcHost, (ev) => this.handleCentral(ev))
+
+	}
+
+	handleCommand(target, data, source){
+		console.log('command', target, data)
+		 this.agents[target].command(data, (r) => source.send(JSON.stringify(r)))
+	}
+
+	handleCentralMessage(source, msg){
+		let data = JSON.parse(msg)
+
+		switch(data.id){
+			case 'greeting' : console.log('from OLC ... ', data.data); break
+			case 'command' : this.handleCommand(data.target, data.data, source)
+		}
+	}
+
 	handleCentral(ev){
-		ev.source.send(ev.id == 'open'?'I am an OLS channel agent with adapter capabilities ...':'bye...')
-		if (ev.id == 'msg')
-			console.log(ev.data)
+		switch(ev.id){
+			case 'open' :  ev.source.send('Adapter capabilities'); break
+			case 'close' : ev.source.send('bye ...'); break
+			case 'msg' : this.handleCentralMessage(ev.source, ev.data)
+		}
+
 	}
 
 	serialize(data){
@@ -32,6 +77,8 @@ class Manager extends Channel{
 			console.log(error?error:'')
 
 			this.data = error? {} : JSON.parse(data)
+
+			this.initializeAgents()
 		})
 	}
 

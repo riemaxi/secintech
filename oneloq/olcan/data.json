@@ -1,19 +1,19 @@
 {
 	"ols" : [
 			{
-				"id" : 1,
+				"id" : 1001,
 				"name" : "ols 0001",
 				"channel" : "WRITE IP HERE"
 			}
 	],
 	"sad" : [
 			{
-				"id" : 1,
+				"id" : 2001,
 				"name" : "sad 0001",
 				"channel" : "WRITE RELAY CHANNEL NUMBER HERE"
 			},
 			{
-				"id" : 2,
+				"id" : 2002,
 				"name" : "sad 0002",
 				"channel" : "WRITE RELAY CHANNEL NUMBER HERE"
 			}
@@ -22,14 +22,14 @@
 	],
 	"acd" : [
 			{
-				"id" : 1,
+				"id" : 3001,
 				"name" : "acd 0001",
 				"channel" : "WRITE IP HERE"
 			}
 	],
 	"atd" : [
 			{
-				"id" : 1,
+				"id" : 4001,
 				"name" : "atd 0001",
 				"channel" : "WRITE IP HERE"
 			}
@@ -37,22 +37,22 @@
 	],
 	"sensor" : [
 			{
-				"id" : 1,
+				"id" : 5001,
 				"name" : "sensor 001",
 				"channel" : "WRITE IP HERE"
 			},
 			{
-				"id" : 2,
+				"id" : 5002,
 				"name" : "sensor 002",
 				"channel" : "WRITE IP HERE"
 			},
 			{
-				"id" : 3,
+				"id" : 5003,
 				"name" : "sensor 003",
 				"channel" : "WRITE IP HERE"
 			},
 			{
-				"id" : 4,
+				"id" : 5004,
 				"name" : "sensor 004",
 				"channel" : "WRITE IP HERE"
 			}

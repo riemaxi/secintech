@@ -1,5 +1,5 @@
 let http = require('http')
-const OLSChannel = require('./ols')
+const OLCANChannel = require('./olcan')
 
 class Manager{
 	constructor(config){
@@ -9,8 +9,7 @@ class Manager{
 
 		this.sikLogin( token => this.sikToken = token )
 
-		this.ols = {'acd_000' : new OLSChannel(config.channel, (sad) => this.handleSAD(msg,  'acd_000'))}
-		//this.acd = {'acd_000' : new ACD()}
+		this.channel = new OLCANChannel(config.channel, (data) => this.handleOLCAN(data) )
 	}
 
 	request(host, port, path, handle){
@@ -43,8 +42,8 @@ class Manager{
 		this.request(this.host, this.port,`/access/find/${user}/${password}`, handle )
 	}
 
-	handleSAD(msg,  target){
-		//this.acd[target].send(msg)
+	handleOLCAN(data){
+		console.log(data)
 	}
 
 	sendOLScommand(command, acd, target, data, handle){

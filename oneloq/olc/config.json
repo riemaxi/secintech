@@ -4,5 +4,5 @@
 	"db" : {"host" : "localhost", "port" : "3500"},
 	"sik" : {"host" : "localhost", "port" : "5000", "login" : { "user": "u", "password" : "p"}},
 
-	"channel" : {"port" : 3101, "greeting" : "OLC channel agent on $PORT"}
+	"channel" : {"port" : 3101, "greeting" : "OLCAN channel on $PORT"}
 }
