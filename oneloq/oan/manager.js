@@ -1,6 +1,8 @@
 const data = require('./data.json')
 const Channel = require('../common/channel')
 
+console.log(data)
+
 class Manager extends Channel{
 
 	constructor(config){

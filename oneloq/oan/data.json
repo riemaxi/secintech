@@ -1,7 +1,48 @@
 {
-	"ols" : [],
-	"sad" : [],
-	"acd" : [],
-	"atd" : [],
-	"topology" : []
+	"ols" : [
+			{
+				"id" : 1,
+				"name" : "ols 0001",
+				"channel" : "WRITE IP HERE"
+			}
+	],
+	"sad" : [
+			{
+				"id" : 1,
+				"name" : "sad 0001",
+				"channel" : "WRITE RELAY CHANNEL NUMBER HERE"
+			},
+			{
+				"id" : 2,
+				"name" : "sad 0002",
+				"channel" : "WRITE RELAY CHANNEL NUMBER HERE"
+			}
+
+
+	],
+	"acd" : [
+			{
+				"id" : 1,
+				"name" : "acd 0001",
+				"channel" : "WRITE IP HERE"
+			}
+	],
+	"atd" : [
+			{
+				"id" : 1,
+				"name" : "atd 0001",
+				"channel" : "WRITE IP HERE"
+			}
+
+	],
+	"topology" : [
+		{
+			"id" : 1,
+			"link" : [
+				{"ols" : 1, "sad" : 1},
+				{"ols" : 1, "sad" : 2},
+				{"acd" : 1, "atd" : 1}
+			]
+		}
+	]
 }

@@ -7,7 +7,7 @@ class OLSChannel extends Channel{
 
 	handleConnection(ws){
 		this.agent = ws
-		this.agent.send('welcome ...')
+		this.agent.send(JSON.stringify({id : 'greeting', data : 'welcome ...'}))
 	}
 
 	execute(command, target){
