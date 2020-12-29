@@ -1,8 +1,12 @@
 /*
- Obs. before running
+first:
 
 npm install -g node-windows
 npm link node-windows
+
+then:
+
+node install.js
 */
 
 var Service = require('node-windows').Service
