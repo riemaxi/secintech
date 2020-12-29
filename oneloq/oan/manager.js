@@ -1,7 +1,6 @@
 const data = require('./data.json')
 const Channel = require('../common/channel')
-
-console.log(data)
+const fs = require('fs')
 
 class Manager extends Channel{
 
@@ -14,6 +13,21 @@ class Manager extends Channel{
 		ev.source.send(ev.id == 'open'?'I am an OLS channel agent with adapter capabilities ...':'bye...')
 		if (ev.id == 'msg')
 			console.log(ev.data)
+	}
+
+	serialize(data){
+		return	`{
+	"ols" : ${JSON.stringify(data.ols)},
+	"sad" :  ${JSON.stringify(data.sad)},
+	"atd" : ${JSON.stringify(data.atd)},
+	"sensor" :  ${JSON.stringify(data.sensor)},
+	"topology" : ${JSON.stringify(data.topology)}
+}`
+	}
+
+	save(){
+		fs.writeFile('./data.json',  this.serialize(data), error => console.log(error?error:''))
+
 	}
 
 }

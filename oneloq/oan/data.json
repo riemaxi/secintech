@@ -35,6 +35,29 @@
 			}
 
 	],
+	"sensor" : [
+			{
+				"id" : 1,
+				"name" : "sensor 001",
+				"channel" : "WRITE IP HERE"
+			},
+			{
+				"id" : 2,
+				"name" : "sensor 002",
+				"channel" : "WRITE IP HERE"
+			},
+			{
+				"id" : 3,
+				"name" : "sensor 003",
+				"channel" : "WRITE IP HERE"
+			},
+			{
+				"id" : 4,
+				"name" : "sensor 004",
+				"channel" : "WRITE IP HERE"
+			}
+
+	],
 	"topology" : [
 		{
 			"id" : 1,
